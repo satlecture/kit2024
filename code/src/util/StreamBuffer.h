@@ -1,5 +1,5 @@
 /*************************************************************************************************
-CNFTools -- Copyright (c) 2021, Markus Iser, KIT - Karlsruhe Institute of Technology
+StreamBuffer -- Copyright (c) 2021, Markus Iser, KIT - Karlsruhe Institute of Technology
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
 associated documentation files (the "Software"), to deal in the Software without restriction,
@@ -23,11 +23,8 @@ OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWA
 #include <archive.h>
 #include <archive_entry.h>
 
-#include <iostream>
 #include <limits>
 #include <cstring>
-#include <algorithm>
-#include <string>
 
 #include "SolverTypes.h"
 
