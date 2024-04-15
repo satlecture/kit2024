@@ -488,45 +488,25 @@ IPASIR = Re-entrant Incremental Satisfiability Application Program Interface (ac
 \end{frame}
 
 \begin{frame}{IPASIR Overview}
-\begin{itemize}
+\begin{itemize}\setlength{\itemsep}{1em}
 \item Clauses are added one literal at a time
-\begin{itemize}
+\begin{itemize}\setlength{\itemsep}{1ex}
 	\item To add $(x_1 \vee \overline{x_4})$ call \texttt{add(1); add(-4); add(0);}
 \end{itemize}
 \item You can call a SAT solver with a set of assumptions
-\begin{itemize}
+\begin{itemize}\setlength{\itemsep}{1ex}
 	\item Assumptions are basically temporary decision literals
 	\item Assumptions are cleared after each \texttt{solve()} call
 \end{itemize}
-\item Clause removal is done via activation literals and assumptions
-\begin{itemize}
+\item Clause removal is controlled with activation literals
+\begin{itemize}\setlength{\itemsep}{1ex}
 	\item You must know ahead which clauses you will maybe want to remove
 	\item Add the clause with an additional fresh variable (activation literal)
-	\item example: instead of $(x_1 \vee x_2)$ add $(x_1 \vee x_2 \vee a_1)$
+	\item Example: instead of $(x_1 \vee x_2)$ add $(x_1 \vee x_2 \vee a_1)$
 	\item solve with with assumption $\overline{a_1}$ to enforce $(x_1 \vee x_2)$
-	\item drop the assumption $\overline{a_1}$ to drop $(x_1 \vee x_2)$
 \end{itemize}
 \end{itemize}
 \end{frame}
-
-% \begin{frame}{Ipasir Interface}
-% \begin{block}{ipasir.h}
-% \texttt{\footnotesize
-% const char* ipasir\_signature();\\
-% void* ipasir\_init();\\
-% void  ipasir\_release(void* solver);\\
-% void  ipasir\_set\_terminate(void* solver, void* state,\\
-% \hspace{2em} int (*terminate)(void* state));\\
-% void  ipasir\_set\_learn (void * solver, void * state,\\
-% \hspace{2em} int max\_length, void (*learn)(void * state, int * clause));\\
-% void  ipasir\_add(void* solver, int lit\_or\_zero);\\
-% void  ipasir\_assume(void* solver, int lit);\\
-% int   ipasir\_solve(void* solver);\\
-% int   ipasir\_val(void* solver, int lit);\\
-% int   ipasir\_failed(void* solver, int lit);
-% }
-% \end{block}
-% \end{frame}
 
 \begin{frame}{IPASIR Functions}
 	\def\arraystretch{1.5}
@@ -568,20 +548,5 @@ Let a satisfiable formula $F$ be given.
 	
 \end{alert}
 \end{frame}
-
-% \begin{frame}{Example -- Essential Variables -- Code}
-% 	\centering
-% 	\includegraphics[height=.75\textheight]{figures/l01/essentials.png}
-% \end{frame}
-
-% \appendix
-% \beginbackup
-
-% \begin{frame}[allowframebreaks]{References}
-% \bibliographystyle{templates/bibstyle}
-% \bibliography{references}
-% \end{frame}
-
-% \backupend
 
 \end{document}
