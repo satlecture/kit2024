@@ -53,10 +53,10 @@
 		\begin{itemize}
 			\item \url{https://github.com/satlecture/kit2024}
 		\end{itemize}
-		\item Interact with us (feedback, questions, announcements, etc.):
-		\begin{itemize}
-			\item \url{https://ilias.studium.kit.edu}
-		\end{itemize}
+		% \item Interact with us (feedback, questions, announcements, etc.):
+		% \begin{itemize}
+		% 	\item \url{https://ilias.studium.kit.edu}
+		% \end{itemize}
 	\end{itemize}
 \end{frame}
 
@@ -535,26 +535,32 @@ IPASIR = Re-entrant Incremental Satisfiability Application Program Interface (ac
 \includegraphics[height=.75\textheight]{figures/l01/ipasir.pdf}
 \end{frame}
 
-\begin{frame}{Example -- Essential Variables}
-\begin{itemize}
-\item For a satisfiable formula $F$, a variable $x$ is \emph{essential} if and only $x$ it has to be assigned (True
-or False) in each satisfying assignment of $F$.
-\item Task: find all the essential variables of a given formula
-\item How to do it:
-\begin{itemize}
-	\item use \emph{Dual Rail Encoding} -- for each variable $x$ add two new variables $x_P$ and $x_N$,
-	replace each positive (negative) occurrence of $x$ with $x_P$ ($x_N$), add a clause
-	$(\overline{x_P} \vee \overline{x_N})$ (meaning $x$ cannot be both true and false).
-	\item for each variable $x$ solve the formula with the assumptions $\overline{x_P}$ and
-	$\overline{x_N}$. If the formula is UNSAT then $x$ is essential.
+\begin{frame}{Use Case: Essential Variables}
+Let a satisfiable formula $F$ be given.
+\begin{block}{Essential Variables}
+\begin{itemize}\setlength{\itemsep}{1em}
+	\item Satifying assignments can be partial, i.e., some variables are not assigned but still the formula is satisfied.
+	\item A variable $x$ is \emph{essential} if and only $x$ it has to be assigned (True or False) in each satisfying assignment.
 \end{itemize}
-\end{itemize}
+\end{block}
+\begin{block}{Task: find all the essential variables of a given satisfiable formula}
+	\begin{itemize}\setlength{\itemsep}{1ex}
+		\item use \emph{Dual Rail Encoding} -- for each variable $x$ add two new variables $x_P$ and $x_N$,
+		replace each positive (negative) occurrence of $x$ with $x_P$ ($x_N$), add a clause
+		$(\overline{x_P} \vee \overline{x_N})$ (meaning $x$ cannot be both true and false).
+		\item for each variable $x$ solve the formula with the assumptions $\overline{x_P}$ and
+		$\overline{x_N}$. If the formula is UNSAT then $x$ is essential.
+	\end{itemize}
+\end{block}
+\begin{alert}{Let's implement it!}
+	\href{https://github.com/satlecture/kit2024/tree/main/code}{https://github.com/satlecture/kit2024/tree/main/code}
+\end{alert}
 \end{frame}
 
-\begin{frame}{Example -- Essential Variables -- Code}
-	\centering
-	\includegraphics[height=.75\textheight]{figures/l01/essentials.png}
-\end{frame}
+% \begin{frame}{Example -- Essential Variables -- Code}
+% 	\centering
+% 	\includegraphics[height=.75\textheight]{figures/l01/essentials.png}
+% \end{frame}
 
 % \appendix
 % \beginbackup
