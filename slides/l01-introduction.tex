@@ -424,10 +424,8 @@ SAT solvers are command line applications that take as argument a text file with
 	\begin{itemize}\setlength{\itemsep}{1em}
 		\item Download and Build a SAT solver:
 			\begin{itemize}
-				\item \href{https://github.com/arminbiere/kissat}{Kissat}
 				\item \href{https://github.com/arminbiere/cadical}{CaDiCaL}
-				\item \href{https://github.com/niklasso/minisat}{Minisat}
-				\item \dots
+				\item Alternatives: \href{https://github.com/arminbiere/kissat}{Kissat}, \href{https://github.com/niklasso/minisat}{Minisat}, \href{https://github.com/msoos/cryptominisat}{CryptoMinisat}, \href{https://maplesat.github.io/}{Maplesat}, \dots
 			\end{itemize}
 		\item Download a CNF formula:
 			\begin{itemize}
@@ -442,54 +440,53 @@ SAT solvers are command line applications that take as argument a text file with
 \section{Incremental SAT}
 
 \begin{frame}{Incremental SAT Solving}
-\begin{itemize}
-\item We often need to solve a sequence of similar SAT instances
-\begin{itemize}
-	\item for example planning as SAT, Sokoban, bounded model checking
-	\item the instances share most of the clauses with their neighbors
-\end{itemize}
-\item Can we solve these sequences of instances more efficiently?
-\pause
-\item What is incremental SAT solving?
-\begin{itemize}
-	\item Clauses can be added to and removed from the SAT solver
-\end{itemize}
+In many applications, we solve a sequence of similar SAT instances:\\[1ex]
+Planning, Bounded Model Checking, SMT, Scheduling, MaxSAT, \dots
 
-\item Why not call the solver with the new formula every time?
-\pause
-\begin{itemize}
-	\item The solver can remember learned clauses and other stuff (variable scores required for heuristics)
-	\item (de)initialization overheads removed
+\begin{block}{Incremental SAT Solving}
+\begin{itemize}\setlength{\itemsep}{1em}
+	\item The SAT solver is initialized once
+	\item Each call to \texttt{solve()} takes a set of assumptions as input\\
+		  $\rightarrow$ assumptions are literals that serve as a partial assignment to their variables
+	\item Like this also clauses can be activated/deactivated in the SAT solver
+	\item Between \texttt{solve()} calls, new clauses can be added
+	\item Advantages:
+	\begin{itemize}
+		\item<2-> solver remembers learned clauses, preprocessing, variable scores (heuristics), etc.
+		\item<2-> (de)initialization overheads removed
+	\end{itemize}
 \end{itemize}
-\end{itemize}
+\end{block}
 \end{frame}
 
-\begin{frame}{Incremental Library Track -- IPASIR}
-\begin{figure}[htp]
+\begin{frame}{IPASIR: Incremental Library Interface for SAT Solvers}
+IPASIR = Re-entrant Incremental Satisfiability Application Program Interface (acronym reversed)
+
+\begin{block}{IPASIR}
+	\begin{itemize}\setlength{\itemsep}{1em}
+		\item Defined for the 2015 SAT Race to unify incremental SAT solver interfaces
+		\item IPASIR has become a standard interface of incremental SAT solving
+		\item<2> Version 2 is in the works
+	\end{itemize}
+\end{block}~\\[.5em]
 \centering
-\includegraphics[scale=0.15]{figures/l01/ipa.jpeg}
-\end{figure}
-\begin{itemize}
-\item Previously each SAT solver had a different incremental interface
-\item For the 2015 SAT Race a unified interface was defined -- IPASIR
-\item IPASIR = Re-entrant Incremental Satisfiability Application Program Interface (acronym reversed)
-\item IPASIR has become a standard interface of incremental SAT solving, version 2 is in the works.
-\end{itemize}
+% \only<1>{\includegraphics[width=.23\textwidth]{figures/l01/ipa.jpeg}}
+\only<1>{\href{https://github.com/biotomas/ipasir}{\includegraphics[width=.23\textwidth]{logos/ipasir.png}}}
+\only<2>{\href{https://github.com/ipasir2}{\includegraphics[width=.23\textwidth]{logos/ipasir2.png}}}
 \end{frame}
 
 \begin{frame}{IPASIR Overview}
 \begin{itemize}
-\item Based on Lingeling incremental interface
 \item Clauses are added one literal at a time
 \begin{itemize}
 	\item To add $(x_1 \vee \overline{x_4})$ call \texttt{add(1); add(-4); add(0);}
 \end{itemize}
-\item<2-> You can call a SAT solver with a set of assumptions
+\item You can call a SAT solver with a set of assumptions
 \begin{itemize}
-	\item Assumptions are basically temporary unit clauses
-	\item Assumptions are cleared after each "solve" call
+	\item Assumptions are basically temporary decision literals
+	\item Assumptions are cleared after each \texttt{solve()} call
 \end{itemize}
-\item<3-> Clause removal is done via activation literals and assumptions
+\item Clause removal is done via activation literals and assumptions
 \begin{itemize}
 	\item You must know ahead which clauses you will maybe want to remove
 	\item Add the clause with an additional fresh variable (activation literal)
@@ -500,43 +497,42 @@ SAT solvers are command line applications that take as argument a text file with
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Ipasir Interface}
-\begin{block}{ipasir.h}
-\texttt{\footnotesize
-const char* ipasir\_signature();\\
-void* ipasir\_init();\\
-void  ipasir\_release(void* solver);\\
-void  ipasir\_set\_terminate(void* solver, void* state,\\
-\hspace{2em} int (*terminate)(void* state));\\
-void  ipasir\_set\_learn (void * solver, void * state,\\
-\hspace{2em} int max\_length, void (*learn)(void * state, int * clause));\\
-void  ipasir\_add(void* solver, int lit\_or\_zero);\\
-void  ipasir\_assume(void* solver, int lit);\\
-int   ipasir\_solve(void* solver);\\
-int   ipasir\_val(void* solver, int lit);\\
-int   ipasir\_failed(void* solver, int lit);
-}
-\end{block}
-For more details and examples of usage see \url{https://github.com/biotomas/ipasir}
-\end{frame}
+% \begin{frame}{Ipasir Interface}
+% \begin{block}{ipasir.h}
+% \texttt{\footnotesize
+% const char* ipasir\_signature();\\
+% void* ipasir\_init();\\
+% void  ipasir\_release(void* solver);\\
+% void  ipasir\_set\_terminate(void* solver, void* state,\\
+% \hspace{2em} int (*terminate)(void* state));\\
+% void  ipasir\_set\_learn (void * solver, void * state,\\
+% \hspace{2em} int max\_length, void (*learn)(void * state, int * clause));\\
+% void  ipasir\_add(void* solver, int lit\_or\_zero);\\
+% void  ipasir\_assume(void* solver, int lit);\\
+% int   ipasir\_solve(void* solver);\\
+% int   ipasir\_val(void* solver, int lit);\\
+% int   ipasir\_failed(void* solver, int lit);
+% }
+% \end{block}
+% \end{frame}
 
 \begin{frame}{IPASIR Functions}
-\begin{itemize}
-	\item signature -- return the name and version of the solver
-	\item init -- initialize the solver, the pointer it returns is used for the rest of the functions
-	\item add -- add clauses, one literal at a time
-	\item assume -- add an assumption, the assumptions are cleared after a "solve" call
-	\item solve -- solve the formula, return SAT, UNSAT or INTERRUPTED
-	\item val -- return the truth value of a variable (if solve returned SAT)
-	\item failed -- returns true if the given assumption was required for the unsatisfiability of
-	the formula (if solver returned UNSAT)
-\end{itemize}
+	\def\arraystretch{1.5}
+	\begin{tabularx}{\textwidth}{lX}
+		\tt signature 	& return the name and version of the solver\\
+		\tt init    	& initialize the solver, the pointer it returns is used for the rest of the functions\\
+		\tt add 		& add clauses, one literal at a time\\
+		\tt assume 		& add an assumption, the assumptions are cleared after a "solve" call\\
+		\tt solve 		& solve the formula, return SAT, UNSAT or INTERRUPTED\\
+		\tt val 		& return the truth value of a variable (if SAT)\\
+		\tt failed 		& returns true if the given assumption was part of reason for UNSAT\\
+	\end{tabularx}~\\[1em]
+	For more details and examples of usage see \url{https://github.com/biotomas/ipasir}
 \end{frame}
 
 \begin{frame}{IPASIR Solver States}
-\begin{center}
-\includegraphics[scale=0.45]{figures/l01/ipasir.pdf}
-\end{center}
+\centering
+\includegraphics[height=.75\textheight]{figures/l01/ipasir.pdf}
 \end{frame}
 
 \begin{frame}{Example -- Essential Variables}
