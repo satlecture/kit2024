@@ -253,24 +253,36 @@ Try it yourself: \url{http://www.cs.utexas.edu/~marijn/game/}
 \section{Introductory Examples}
 
 \begin{frame}{Applications of SAT Solving}
-\begin{itemize}
-	\item Hardware Model Checking
+\begin{minipage}{0.75\textwidth}
 	\begin{itemize}
-	\item All major hardware companies (Intel, \dots) use SAT solver to verify their chip designs
-	\end{itemize}
-	\item Software Verification
-	\begin{itemize}
-	\item SAT solver based SMT solvers are used to verify Microsoft software products
-	\item Embedded software in cars, airplanes, refrigerators,\dots
-	\item Unix utilities
-	\end{itemize}
-	\item Automated Planning and Scheduling in Artificial Intelligence
-	\begin{itemize}
-	\item Still one of the best approaches for optimal planning
-	\end{itemize}
-	\item Number Theoretic Problems (Pythagorean Triples)
-	\item Solving other NP-hard problems (coloring, clique, \dots)
-\end{itemize}
+		\item Hardware verification and design
+		\begin{itemize}
+			\item Major hardware companies (Intel, \dots) use SAT to verify their chip designs
+			\item Computer Aided Design of electronic circuits
+		\end{itemize}
+		\item Software verification
+		\begin{itemize}
+			\item SAT-based SMT solvers are used to verify Microsoft software products\\
+			(also great interest at Amazon -- AWS software in particular)
+			\item Embedded software in cars, airplanes, refrigerators,~\dots
+			\item Unix utilities
+		\end{itemize}
+		\item Automated Planning and Scheduling in Artificial Intelligence
+		\begin{itemize}
+			%\item Good for small-to-medium sized, highly constrained problems
+			\item Job shop scheduling, train scheduling, multi-agent path finding
+		\end{itemize}
+		\item Cryptanalysis
+		\begin{itemize}
+			\item Test/prove properties of cryptographic ciphers, hash functions
+		\end{itemize}
+		\item Number Theoretic Problems (Pythagorean Triples, square grid coloring)
+		\item Solving other NP-hard problems (coloring, clique, \dots)
+	\end{itemize}	
+\end{minipage}%
+\begin{minipage}{0.25\textwidth}
+	\includegraphics[width=\textwidth]{figures/l01/applications.png}
+\end{minipage}
 \end{frame}
 
 \begin{frame}{SAT Solving in the News}
@@ -393,8 +405,8 @@ Given an undirected graph $G=(V,E)$ and a number $k$, a $k$-coloring assigns one
 	\end{column}
 	\begin{column}{0.4\textwidth}
 	\begin{center}
-		\includegraphics<1>[height=0.8\textwidth]{figures/l01/graph-coloring-1.png}
-		\includegraphics<2>[height=0.8\textwidth]{figures/l01/graph-coloring-2.png}
+		\includegraphics<1>[height=0.7\textwidth]{figures/l01/graph-coloring-1.pdf}
+		\includegraphics<2>[height=0.7\textwidth]{figures/l01/graph-coloring-2.pdf}
 	\end{center}
 	\end{column}
 \end{columns}
