@@ -1,5 +1,5 @@
 /*************************************************************************************************
-CNFTools -- Copyright (c) 2021, Markus Iser, KIT - Karlsruhe Institute of Technology
+CNFFormula -- Copyright (c) 2021, Markus Iser, KIT - Karlsruhe Institute of Technology
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
 associated documentation files (the "Software"), to deal in the Software without restriction,
@@ -20,13 +20,9 @@ OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWA
 #ifndef SRC_UTIL_CNFFORMULA_H_
 #define SRC_UTIL_CNFFORMULA_H_
 
-#include <vector>
 #include <algorithm>
-#include <memory>
-#include <string>
-
-#include "StreamBuffer.h"
 #include "SolverTypes.h"
+#include "StreamBuffer.h"
 
 class CNFFormula {
     For formula;
