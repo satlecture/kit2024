@@ -4,6 +4,7 @@
 \usepackage{listings}
 \usepackage{graphicx}
 \usepackage{tabularx}
+\usepackage{tikzsymbols}
 
 \hypersetup{
 	colorlinks=true,
@@ -216,9 +217,9 @@ A decision problem is NP-complete if it is in NP and every problem in NP can be 
 \pause
 \begin{block}{Consequences of NP-completeness of SAT}
 \begin{itemize}
-	\item We do not have a polynomial algorithm for SAT (yet) :(
-	\item If $P \neq NP$ then we will never have a polynomial algorithm for SAT :'(
-	\item All the known NP-complete algorithms have exponential runtime in the \textbf{worst case}.
+	\item We do not have a polynomial algorithm for SAT (yet) ~\cChangey{0}
+	\item If $P \neq NP$ then we will never have a polynomial algorithm for SAT ~\cChangey{-1}
+	\item All the known NP-complete algorithms have exponential runtime in the \textbf{worst case} ~\cChangey{-2}
 \end{itemize}
 \end{block}
 
@@ -526,7 +527,7 @@ IPASIR = Re-entrant Incremental Satisfiability Application Program Interface (ac
 		\tt signature 	& return the name and version of the solver\\
 		\tt init    	& initialize the solver, the pointer it returns is used for the rest of the functions\\
 		\tt add 		& add clauses, one literal at a time\\
-		\tt assume 		& add an assumption, the assumptions are cleared after a "solve" call\\
+		\tt assume 		& add an assumption, the assumptions are cleared after a \texttt{solve()} call\\
 		\tt solve 		& solve the formula, return SAT, UNSAT or INTERRUPTED\\
 		\tt val 		& return the truth value of a variable (if SAT)\\
 		\tt failed 		& returns true if the given assumption was part of reason for UNSAT\\
