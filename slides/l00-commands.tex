@@ -8,3 +8,24 @@
 
 \newcommand{\highl}[1]{\textcolor{myblue}{#1}}
 \newcommand{\highlo}[1]{\textcolor{myred}{#1}}
+
+% Extra column types for tabularx
+\newcolumntype{C}{>{\centering\arraybackslash}X}
+\newcolumntype{L}{>{\raggedright\arraybackslash}X}
+\newcolumntype{R}{>{\raggedleft\arraybackslash}X}
+
+\newcommand{\setcolsep}[1]{\setlength{\tabcolsep}{#1}}
+\newcommand{\setrowsep}[1]{\renewcommand{\arraystretch}{#1}}
+
+% Definitions for the Tseitin transformation
+\newcommand{\true}{\ensuremath{\mathit{True}}}
+\newcommand{\false}{\ensuremath{\mathit{False}}}
+\newcommand{\allvars}{\ensuremath{\mathcal{V}}}
+\newcommand{\tseitin}[1]{\ensuremath{\mathcal{T}(#1)}}
+\newcommand{\tseitinRec}[2]{\ensuremath{\mathcal{T}^{#2}(#1)}}
+\newcommand{\tseitinSym}[1]{\ensuremath{\mathcal{T}_\mathsf{lit}(#1)}}
+\newcommand{\tseitinDef}[2]{\ensuremath{\mathcal{T}_\mathsf{def}^{#2}(#1)}}
+\newcommand{\hcancel}[2][black]{\setbox0=\hbox{$#2$}\rlap{\raisebox{.45\ht0}{\textcolor{#1}{\rule{\wd0}{1pt}}}}#2} 
+\newcommand{\sateq}{\mathrel{\overset{\makebox[0pt]{\mbox{\normalfont\tiny\sffamily SAT}}}{=}}}
+
+\newcommand{\enc}{\ensuremath{\mathcal{E}}} % encoding
