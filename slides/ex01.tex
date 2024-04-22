@@ -5,6 +5,7 @@
 \usepackage{graphicx}
 \usepackage{tabularx}
 \usepackage{tikzsymbols}
+\usepackage[lined,linesnumbered,ruled,noend]{algorithm2e}
 
 \hypersetup{
 	colorlinks=true,
@@ -62,6 +63,42 @@
 	\end{block}
 	A CNF formula $F$ is \highl{SLUR} if the SLUR algorithm \highl{never gives up} on $F$ (regardless of the choices
 	in lines 04 and 10).
+\end{frame}
+
+\begin{frame}{SLUR Formulas}
+	\begin{algorithm}[H]
+		\SetKwFunction{SLUR}{SLUR}
+		\SetKwFunction{UnitResolution}{UnitResolution}
+		\SetKwFunction{SelectVariable}{SelectVariable}
+		\SetKwFunction{GIVEUP}{GIVE-UP}
+		\SetKwFunction{SAT}{SAT}
+		\SetKwFunction{UNSAT}{UNSAT}
+		
+		% $F \leftarrow$ \UnitResolution{$F$} \;
+		% \lIf {$\bot \in F$} {
+		% 	\Return \UNSAT
+		% }
+		\lIf {all variables appear in a unit clause} {
+			\Return \SAT
+		}
+
+		$v \leftarrow$ \SelectVariable{$F$} \;
+		$F_1 \leftarrow$ \UnitResolution{$F \land (v)$} \;
+		$F_2 \leftarrow$ \UnitResolution{$F \land (\overline{v})$} \;
+
+		\If {$\bot \in F_1$ \textbf{and} $\bot \in F_2$} {
+			\Return \GIVEUP \;
+		}
+		\If {$\bot \in F_1$ \textbf{and} $\bot \notin F_2$} {
+			\Return \SLUR{$F_2$} \;
+		}
+		\If {$\bot \notin F_1$ \textbf{and} $\bot \in F_2$} {
+			\Return \SLUR{$F_1$} \;
+		}
+		\Return \SLUR{$F_1$} \textbf{or} \SLUR{$F_2$}  \;
+
+		\caption{Single-lookahead Unit Resolution (SLUR)}
+	\end{algorithm}
 \end{frame}
 
 
