@@ -63,6 +63,7 @@
 \end{frame}
 
 \begin{frame}{Tractable Subclasses}
+\pause
 \begin{block}{Tractable Subclasses \href{https://doi.org/10.1145/800133.804350}{(cf.~Schaefer, 1978)}}
 	\begin{itemize}\setlength{\itemsep}{1em}
 		\item \textbf{2-SAT}\\Exactly two literals per clause
@@ -83,12 +84,14 @@ Each clause has exactly two literals.
 	F_7 &= \{ \{ \overline{x_1}, x_2 \}, \{ \overline{x_2}, x_3 \}, \{ \overline{x_3}, x_1 \}, \{ x_2, x_4 \}, \{ x_3, x_4 \}, \{ x_1, x_3 \} \} &
 \end{flalign*}
 \end{example}
+\pause
 \begin{block}{Linear Time Algorithm for 2-SAT \href{https://doi.org/10.1016/0020-0190(79)90002-4}{(cf.~Aspvall et al., 1979)}}
 	\begin{itemize}\setlength{\itemsep}{1em}
-		\item Construct Implication Graph
-		\item Find Strongly Connected Components (SCC) with Tarjan's Algorithm\\
-			  Complexity: $\mathcal{O}(n+m)$, where $m$ is the number of clauses
-		\item Check for Complementary Literals in the same SCC
+		\item \highl{Construct} Implication Graph:\\[1ex]
+			  Directed graph with a vertex for each literal and two edges \highlo{$\overline l_1 \rightarrow l_2$} and \highlo{$\overline l_2 \rightarrow l_1$} for each clause $\{ l_1, l_2 \}$
+		\item \highl{Find} Strongly Connected Components (SCC)\\[1ex]
+			  \highlo{SCC:} There is a path from every vertex to every other vertex
+		\item \highl{Check} for Complementary Literals in the same SCC
 	\end{itemize}
 \end{block}
 \end{frame}
@@ -111,7 +114,7 @@ Each clause has exactly two literals.
 % \end{frame}
 
 \begin{frame}{Implication Graph}
-	An \textbf{implication graph} of a 2-SAT formula $F$ is a \highl{directed graph} with a vertex for each literal of $F$ and 2 edges for each clause $(l_1 \vee l_2)$: $\overline l_1 \rightarrow l_2$ and $\overline l_2 \rightarrow l_1$.
+	
 \begin{example}[Implication Graph]
 	\centering
 	\vspace*{1ex}
@@ -121,21 +124,22 @@ Each clause has exactly two literals.
 		\only<2>{
 			\begin{itemize}\setlength{\itemsep}{1em}
 				\item Find \highl{Strongly Connected Components} (SCC)
-				\item SCC: There is a path from every vertex to every other vertex
 				\item \highl{Tarjan's algorithm} finds SCCs in $\mathcal{O}(|V|+|E|)$
+				\item \highlo{Complexity:} $\mathcal{O}(n+m)$, where $m$ is the number of clauses
 			\end{itemize}
 		}
 		\only<3->{
 			\begin{itemize}\setlength{\itemsep}{1em}
 				\item If an SCC contains both $x$ and $\overline{x}$, the formula is \highlo{UNSAT}
 				\begin{itemize}\setlength{\itemsep}{1ex}
-					\item $x$ implies its own negation!
-					\item Literals in an SCC must be either all true or all false
+					\only<3>{\item Why?}
+					\item<4-> $x$ implies its own negation!
+					\item<4-> Literals in an SCC must be either all true or all false
 				\end{itemize}
-				\item<4> What about \highlo{SAT}? How to get a solution?
+				\item<4-> What about \highlo{SAT}? How to get a solution?
 				\begin{itemize}\setlength{\itemsep}{1ex}
-					\item Contract each SCC into one vertex
-					\item In reverse topological order, set unassigned literals to \texttt{true}.
+					\item<5-> Contract each SCC into one vertex
+					\item<5-> In reverse topological order, set unassigned literals to \texttt{true}.
 					% \item Example: $x_1 = x_2 = x_3 = \texttt{true}$, $x_4 = \texttt{true}$, the rest is already assigned.
 				\end{itemize}
 			\end{itemize}
@@ -143,8 +147,8 @@ Each clause has exactly two literals.
 	\end{column}%
 	\begin{column}{0.3\textwidth}
 		\only<1>{\includegraphics[width=.9\textwidth]{figures/l02/impgraph.pdf}}
-		\only<2-3>{\includegraphics[width=.9\textwidth]{figures/l02/impgraph-comp.pdf}}
-		\only<4>{\includegraphics[width=.9\textwidth]{figures/l02/impgraph-cond.pdf}}
+		\only<2-4>{\includegraphics[width=.9\textwidth]{figures/l02/impgraph-comp.pdf}}
+		\only<5>{\includegraphics[width=.9\textwidth]{figures/l02/impgraph-cond.pdf}}
 	\end{column}
 	\end{columns}
 \end{example}
@@ -243,7 +247,7 @@ Each clause has exactly two literals.
 			}
 		\end{align*}
 	\end{example}
-	\begin{block}{Naive Conversion}
+	\begin{block}{Naive / Direct Conversion}
 		\begin{itemize}\setlength{\itemsep}{1ex}
 			\item<2-> Convert to Negation Normal Form (NNF)
 			\item<3-> Apply distributive law to get CNF
