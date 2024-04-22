@@ -403,13 +403,14 @@ The Tseitin-Encoding $\tseitin{F}$ of a propositional formula $F$ over connectiv
 \begin{frame}{At-Most-One Constraints}{Notation: $\operatorname{AtMostOne}(x_1, \dots, x_n)$ or $\leq\!1\,(x_1, \dots, x_n)$ or $\sum_i^n x_i \leq 1$}
 	Not more than one literal from $x_1, \dots, x_n$ is set to True.
 
-	\begin{block}{Naive / Pairwise Encoding}
+	\begin{block}{Direct / Pairwise Encoding}
 		\begin{tabularx}{\linewidth}{LR}
 		$\enc\bigl[\leq\!1\,(x_1, \dots, x_n)\bigr] = \bigl\{ \{\overline{x_i}, \overline{x_j} \} \mid 1 \leq i < j \leq n \bigr\}$ 
 		& Size: ${n \choose 2} = \frac{n \cdot (n-1)}{2}$ clauses
 		\end{tabularx}
 	\end{block}
-	\begin{block}{Size Complexity}
+	\pause
+	\begin{block}{Different Encodings: Size Complexity and Consistency}
 		\centering\setcolsep{10pt}\setrowsep{1.5}
 		\begin{tabularx}{\linewidth}{XlXl}
 			\bf Encoding & \bf Clauses & \bf Enc. Variables & \bf Consistency \\
@@ -423,18 +424,19 @@ The Tseitin-Encoding $\tseitin{F}$ of a propositional formula $F$ over connectiv
 
 \begin{frame}{Cardinality Constraints}{Notation: $\leq\!k\,(x_1, \dots, x_n)$ or $\sum_i^n x_i \leq k$}
 	Not more than $k$ literals from $x_1, \dots, x_n$ are set to True.
-	\begin{block}{Naive Encoding}
+	\begin{block}{Direct Encoding}
 		\begin{tabularx}{\linewidth}{lR}
 			$\enc\bigl[\leq\!k\,(x_1, \dots, x_n)\bigr] = \bigl\{ \{\overline{x_{i_1}}, \dots, \overline{x_{i_{k+1}}} \} \mid 1 \leq i_1 < \dots < i_{k+1} \leq n \bigr\}$ 
 			& Size: ${n \choose k+1}$ clauses\footnote{$\approx 2^n/\sqrt{n}$ by Stirling's Approx. for the worst case $k = \lceil n/2 \rceil$}
 		\end{tabularx}
 	\end{block}
-	\begin{block}{Size Complexity}
+	\pause
+	\begin{block}{Different Encodings: Size Complexity and Consistency}
 		\centering\setcolsep{10pt}\setrowsep{1.5}
 		\begin{tabularx}{\linewidth}{XlXl}
 			\bf Encoding & \bf Clauses & \bf Enc. Variables & \bf Consistency \\
 			\hline
-			Naive Encoding & ${n \choose k+1}$ & 0 & direct\\
+			Direct Encoding & ${n \choose k+1}$ & 0 & direct\\
 			Sequential Counter Encoding & $\mathcal{O}(n \cdot k)$ & $\mathcal{O}(n \cdot k)$ & propagate \\
 			Parallel Counter Encoding & $\mathcal{O}(n)$ & $\mathcal{O}(n)$ & search
 		\end{tabularx}
