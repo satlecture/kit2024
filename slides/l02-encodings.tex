@@ -477,22 +477,22 @@ The Tseitin-Encoding $\tseitin{F}$ of a propositional formula $F$ over connectiv
 \end{frame}
 
 \begin{frame}{Finite-Domain Variables}
-	Common in combinatorial problems: finite domain variables, e.g.: $x \in \{ v_1, \dots, v_n \}$\\
+	Common in combinatorial problems. Discrete, finite value domains: $x \in \{ v_1, \dots, v_n \}$\\[1ex]
 	Relationships between them expressed as equality-formulas, e.g.: $x = v_3 \Rightarrow y \neq v_2$.
-	\begin{block}{Direct encoding / ``one-hot-encoding''}
-		\begin{itemize}
+	\begin{block}{Direct / One-hot encoding}
+		\begin{itemize}\setlength{\itemsep}{1em}
 		\item Boolean variables $x_v$: ``x takes value v''
-		\item Must encode that each variable takes exactly one value from its domain
-			(using at-least-one/at-most-one constraints)
+		\item Must encode that each variable takes exactly one value from its domain\\
+			(by using at-least-one/at-most-one constraints)
 		\item Encoding of variables' constraints simple
 		\end{itemize}
 	\end{block}
 \end{frame}
 \begin{frame}{Finite-Domain Variables}
-	Common in combinatorial problems: finite domain variables, e.g.: $x \in \{ v_1, \dots, v_n \}$\\
+	Common in combinatorial problems: finite domain variables, e.g.: $x \in \{ v_1, \dots, v_n \}$\\[1ex]
 	Relationships between them expressed as equality-formulas, e.g.: $x = v_3 \Rightarrow y \neq v_2$.
-	\begin{block}{Log-encoding / binary encoding}
-		\begin{itemize}
+	\begin{block}{Log / Binary encoding}
+		\begin{itemize}\setlength{\itemsep}{1em}
 		\item Boolean variables $b^x_i$ for $0 \leq i < \lceil \log_2{n} \rceil$
 		\item Each value gets assigned a binary number, e.g. $v_1 \rightarrow 00, v_2 \rightarrow 01, v_3 \rightarrow 10$
 		\item Inadmissible values must be excluded, e.g.: \\
