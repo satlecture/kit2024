@@ -13,3 +13,6 @@ include_directories(${LibArchive_INCLUDE_DIRS})
 
 add_executable(essential src/essential.cc)
 target_link_libraries(essential cadical ${LibArchive_LIBRARIES})
+
+add_executable(slursat src/slursat.cc)
+target_link_libraries(slursat ${LibArchive_LIBRARIES})

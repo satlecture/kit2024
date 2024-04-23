@@ -1,0 +1,55 @@
+\documentclass{article}
+
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{tabularx}
+\usepackage{tikzsymbols}
+\usepackage{hyperref}
+\usepackage{amsmath}
+
+\usepackage{titlesec}
+\titleformat*{\section}{\large\bfseries}
+
+\input{../slides/l00-commands.tex}
+
+\begin{document}
+\exhead{1}{2024-04-23}{2024-05-07}
+
+\section{Coloring Competition (Points 4)}
+
+Implement SAT based graph vertex coloring solver.
+Your application should take as a single command line argument a DIMACS file with a graph and find the smallest number of colors needed to color the graph.
+The application should output the number of colors required.
+The fastest solver gets \highl{seven bonus points}.
+Download and test with the following benchmark instances: \url{https://github.com/satlecture/kit2024/tree/main/exercises/coloring}
+
+\section{Sudoku Competition (Points 7)}
+
+Write an encoder for the generalized Sudoku puzzle.
+The generalized Sudoku puzzle of order $n$ is an $n^2 \times n^2$ grid, consisting of $n^2$ sub-blocks of size $n \times n$, to be filled with numbers $1, \dots, n^2$, such that
+\begin{itemize}\setlength{\itemsep}{0pt}
+\item in each row each number occurs exactly once,
+\item in each column each number occurs exactly once, and
+\item in each sub-block each number occurs exactly once.
+\end{itemize}
+The well-known Sudoku problem\footnote{\url{https://en.wikipedia.org/wiki/Sudoku}} is the generalized Sudoku puzzle of order three.
+The best encoding (solving the most instances and fastest) will get a \highl{bonus of seven points}.
+Download and test with the following benchmark instances: \url{https://github.com/satlecture/kit2024/tree/main/exercises/sudoku}.
+
+% \section{van der Waerden Numbers (Points 3)}
+% Calcucate how many variables and clauses are in the SAT encoding presented in the lecture for 
+% checking whether $W(2,k) > n$?
+
+\section{Pythagorean Triples (Points 6)}
+
+Find a coloring for the numbers $1 \leq i \leq 1000$ such that no Pythagorean triple is monochromatic.
+Estimate the number of variables and clauses in the Pythagorean triples encoding from the lecture (as a function of $n$).
+
+\section{Tseitin Encoding (Points 6)}
+
+Encode the following formula into CNF using the Tseitin Encoding. How would the formula look like the Plaisted-Greenbaum Encoding?
+\begin{align*}
+(\overline{x_1} \wedge \overline{(x_3 \iff x_2)}) \vee ((x_3 \rightarrow \overline{x_4}) \wedge (x_1 \rightarrow (x_2 \wedge \overline{x_3})) \wedge (x_4))
+\end{align*}
+
+\end{document}

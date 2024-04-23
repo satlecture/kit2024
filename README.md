@@ -7,6 +7,10 @@ Summer Term 2024
 - [Monday, April 15: Organisation, Introduction, Applications, Encodings, IPASIR](slides/l01-introduction.pdf)
 - [Monday, April 22: Tractable Subclasses, Tseitin Encoding, Cardinality Constraints, Finite Domain Encodings](slides/l02-encodings.pdf)
 
+# Execises
+
+- [Tuesday, April 23: Assignment 1: Coloring Competition, Sudoku Competition, Pythagorean Triples, Tseitin Encoding](exercises/ex1.pdf)
+
 # Code
 
 The `code/src/util` directory contains a CNF file parser that is called when instantiating the class in `CNFFormula.h`, which can also read packed CNF files.
