@@ -20,3 +20,6 @@ target_link_libraries(slursat ${LibArchive_LIBRARIES})
 add_executable(phole src/phole.cc)
 
 add_executable(trailtest tests/trailtest.cc)
+
+add_executable(pigeonhole src/pigeonhole.cc)
+target_link_libraries(pigeonhole cadical)
