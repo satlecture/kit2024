@@ -9,7 +9,7 @@
 
 \hypersetup{
 	colorlinks=true,
-	urlcolor=kit-green
+	urlcolor=kit-orange
 }
 
 % set sdqbeamer options
@@ -46,82 +46,87 @@
 	\titlepage
 \end{frame}
 
-\begin{frame}{SLUR Formulas}
-	\begin{block}{Single Look-ahead Unit Resolution - SLUR algorithm}
-		01 \textbf{if} $\perp \in \operatorname{UnitPropagation}(F)$ \textbf{then return} \highlo{UNSAT} \textbf{else return} SLUR($F$)\\
-		\vspace{0.5em}
-		02 \textbf{function} SLUR($F$)\\
-		03 \hspace{1em} \textbf{if} all variables appear in a unit clause \textbf{then return} \highlo{SAT}\\
-		04 \hspace{1em} $v = \operatorname{SelectVariable}(F)$\\
-		05 \hspace{1em} $F_1 = \operatorname{UnitPropagation}(F \wedge (v))$\\
-		06 \hspace{1em} $F_2 = \operatorname{UnitPropagation}(F \wedge (\overline{v}))$\\
-		07 \hspace{1em} \textbf{if} $\perp \in F_1$ \textbf{and} $\perp \in F_2$ \textbf{then return} {\highlo GIVE-UP}\\
-		08 \hspace{1em} \textbf{if} $\perp \in F_1$ \textbf{and} $\perp \notin F_2$ \textbf{then return} SLUR($F_2$)\\
-		09 \hspace{1em} \textbf{if} $\perp \notin F_1$ \textbf{and} $\perp \in F_2$ \textbf{then return} SLUR($F_1$)\\
-		10 \hspace{1em} \textbf{if} $\perp \notin F_1$ \textbf{and} $\perp \notin F_2$ \textbf{then return} SLUR($F_1$)
-		\textbf{or} SLUR($F_2$)\\
-	\end{block}
-	A CNF formula $F$ is \highl{SLUR} if the SLUR algorithm \highl{never gives up} on $F$ (regardless of the choices
-	in lines 04 and 10).
+\begin{frame}{SLUR Formulas \href{https://doi.org/10.1007/978-3-642-27660-6_15}{(Čepek et al., 2012)}}
+	\setlength\columnsep{1ex}
+	\begin{columns}
+		\begin{column}{.3\linewidth}
+			A CNF formula is SLUR if the SLUR algorithm \highl{never gives up} on it \highl{regardless of the non-deterministic choices} in SLURSAT() lines~2 and~8.\\[1ex]
+
+			
+		\end{column}
+		\begin{column}{.6\linewidth}
+			\vspace*{-3ex}
+			\renewcommand{\thealgocf}{} % remove algo. numbering
+
+			\LinesNotNumbered
+			\begin{algorithm}[H]
+				\DontPrintSemicolon
+				\SetKwFunction{SLURSAT}{SLURSAT}
+				\SetKwFunction{UnitResolution}{UnitResolution}
+				\SetKwFunction{UNSAT}{\highlo{UNSAT}}
+				$F \leftarrow$ \UnitResolution{$F$} \;
+				\lIf {$\bot \in F$} {
+					\Return \UNSAT
+				}
+				\lElse {
+					\Return \SLURSAT{$F$}
+				}
+				\caption{Single-lookahead Unit Resolution (SLUR)}
+			\end{algorithm}
+
+			\LinesNumbered
+			\begin{algorithm}[H]
+				\DontPrintSemicolon
+				\SetAlgorithmName{Function}{function}{List of Functions}
+
+				\SetKwFunction{SLUR}{SLUR}
+				\SetKwFunction{UnitResolution}{UnitResolution}
+				\SetKwFunction{SelectVariable}{SelectVariable}
+				\SetKwFunction{GIVEUP}{\highlo{GIVE-UP}}
+				\SetKwFunction{SAT}{\highlo{SAT}}
+				
+				\lIf {all variables appear in a unit clause} {
+					\Return \SAT
+				}
+
+				$v \leftarrow$ \SelectVariable{$F$} \tcp*{non-det. choice}
+				$F_1 \leftarrow$ \UnitResolution{$F \land (v)$} \;
+				$F_2 \leftarrow$ \UnitResolution{$F \land (\overline{v})$} \;
+
+				\lIf {$\bot \in F_1$ \textbf{and} $\bot \in F_2$} {
+					\Return \GIVEUP
+				}
+				\lIf {$\bot \in F_1$ \textbf{and} $\bot \notin F_2$} {
+					\Return \SLUR{$F_2$}
+				}
+				\lIf {$\bot \notin F_1$ \textbf{and} $\bot \in F_2$} {
+					\Return \SLUR{$F_1$}
+				}
+				\Return \SLUR{$F_1$} \textbf{non-det. or} \SLUR{$F_2$} \tcp*{non-det. choice}
+
+				\caption{SLURSAT}
+			\end{algorithm}
+		\end{column}
+	\end{columns}
 \end{frame}
 
-\begin{frame}{SLUR Formulas}
-	\begin{algorithm}[H]
-		\SetKwFunction{SLUR}{SLUR}
-		\SetKwFunction{UnitResolution}{UnitResolution}
-		\SetKwFunction{SelectVariable}{SelectVariable}
-		\SetKwFunction{GIVEUP}{GIVE-UP}
-		\SetKwFunction{SAT}{SAT}
-		\SetKwFunction{UNSAT}{UNSAT}
-		
-		% $F \leftarrow$ \UnitResolution{$F$} \;
-		% \lIf {$\bot \in F$} {
-		% 	\Return \UNSAT
-		% }
-		\lIf {all variables appear in a unit clause} {
-			\Return \SAT
-		}
-
-		$v \leftarrow$ \SelectVariable{$F$} \;
-		$F_1 \leftarrow$ \UnitResolution{$F \land (v)$} \;
-		$F_2 \leftarrow$ \UnitResolution{$F \land (\overline{v})$} \;
-
-		\If {$\bot \in F_1$ \textbf{and} $\bot \in F_2$} {
-			\Return \GIVEUP \;
-		}
-		\If {$\bot \in F_1$ \textbf{and} $\bot \notin F_2$} {
-			\Return \SLUR{$F_2$} \;
-		}
-		\If {$\bot \notin F_1$ \textbf{and} $\bot \in F_2$} {
-			\Return \SLUR{$F_1$} \;
-		}
-		\Return \SLUR{$F_1$} \textbf{or} \SLUR{$F_2$}  \;
-
-		\caption{Single-lookahead Unit Resolution (SLUR)}
-	\end{algorithm}
-\end{frame}
-
-
-\begin{frame}{SLUR Formulas}
-	\textbf{Properties of SLUR Formulas} \cite{vcepek2012properties}:
-	\begin{itemize}
+\begin{frame}{Properties of SLUR Formulas}
+	\begin{itemize}\setlength{\itemsep}{1ex}
 		\item Solvable in \highl{polynomial time} (using the SLUR algorithm)
 		\item SLUR is an \highl{umbrella class for polynomially solvable classes}
 		\begin{itemize}
 			\item All \highl{Horn and Hidden Horn} formulas are SLUR formulas
-			\item Also true for Extended Horn, CC-balanced, and Propagation Complete formulas
+			\item Also true for Extended Horn, Balanced, and Propagation Complete formulas
 		\end{itemize}
-		\pause
-		\item It is \highlo{co-NP-complete} to recognize whether a given CNF\\
-		is a SLUR formula or not
+		\item It is \highlo{co-NP-complete} to recognize whether a given CNF is a SLUR formula or not
 	\end{itemize}
 \end{frame}
 
-\begin{frame}{Integer Multiplication / Factorization}
-	\begin{center}
-		\includegraphics[height=0.4\textheight]{figures/l02/multiplier-1.pdf} \\
-		\includegraphics[height=0.4\textheight]{figures/l02/multiplier-2.pdf}
-	\end{center}
-\end{frame}
+% \begin{frame}{Integer Multiplication / Factorization}
+% 	\begin{center}
+% 		\includegraphics[height=0.4\textheight]{figures/l02/multiplier-1.pdf} \\
+% 		\includegraphics[height=0.4\textheight]{figures/l02/multiplier-2.pdf}
+% 	\end{center}
+% \end{frame}
 
 \end{document}
