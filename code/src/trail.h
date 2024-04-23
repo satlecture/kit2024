@@ -39,8 +39,9 @@ public:
         val.resize(formula.nVars()+1);
         trail_lim.push_back(0);
         for (Cl* cls : formula) {
-            if (cls->size() == 1 && !push((*cls)[0])) {
-                return false;
+            if (cls->size() == 1) {
+                if (verb) std::cout << "Unit clause: " << *cls << std::endl;
+                if (!push((*cls)[0])) return false;
             }
             for (Lit lit : *cls) {
                 occ[lit].push_back(cls);
@@ -60,11 +61,13 @@ public:
                 for (Lit lit : *cls) {
                     if (val[lit.var()] == lit.sign() + 1) {
                         if (verb) std::cout << "Clause is satisfied." << std::endl;
+                        unit = Lit();
                         break; // clause is satisfied
                     } 
                     else if (val[lit.var()] == UNASSIGNED) {
                         if (unit != 0) {
                             if (verb) std::cout << "More than one unassigned literal." << std::endl;
+                            unit = Lit();
                             break; // more than one unassigned literal
                         }
                         unit = lit;
