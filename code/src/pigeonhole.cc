@@ -1,36 +1,37 @@
 #include <iostream>
 #include <string>
+#include <vector>
+
+#include "util/CNFFormula.h"
+#include "util/VariableAllocator.h"
 
 #include "ipasir.h"
 
-class VariableAllocator {
-    unsigned next = 1;
+CNFFormula encode_seqential_counter(VariableAllocator& va, std::vector<Lit> lits, unsigned k) {
+    CNFFormula f;
 
-public:
-    unsigned allocate() {
-        return next++;
+    unsigned n = lits.size();
+
+    unsigned** s = va.allocate(n-1, k);
+
+    f.readClause({ ~(lits[0]), Lit(s[0][0]) });
+    for (unsigned i = 0; i < k; i++) {
+        f.readClause({ ~Lit(s[0][i]) });
     }
 
-    unsigned* allocate(unsigned n) {
-        unsigned* result = new unsigned[n];
-        for (unsigned i = 0; i < n; i++) {
-            result[i] = allocate();
+    for (unsigned i = 1; i < n-1; i++) {
+        f.readClause({ ~lits[i], Lit(s[i][0]) });
+        f.readClause({ ~Lit(s[i-1][0]), Lit(s[i][0]) });
+        for (unsigned j = 1; j < k; j++) {
+            f.readClause({ ~lits[i], ~Lit(s[i-1][j-1]), Lit(s[i][j]) });
+            f.readClause({ ~Lit(s[i-1][j]), Lit(s[i][j]) });
         }
-        return result;
+        f.readClause({ ~lits[i], ~Lit(s[i-1][k-1]) });
     }
+    f.readClause({ ~lits[n-1], Lit(s[n-2][k-1]) });
 
-    unsigned** allocate(unsigned n, unsigned m) {
-        unsigned** result = new unsigned*[n];
-        for (unsigned i = 0; i < n; i++) {
-            result[i] = new unsigned[m];
-            for (unsigned j = 0; j < m; j++) {
-                result[i][j] = allocate();
-            }
-        }
-        return result;
-    }
-
-};
+    return f;
+}
 
 int main(int argc, char** argv) {
     if (argc < 2) {
