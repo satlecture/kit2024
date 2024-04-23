@@ -1,22 +1,5 @@
 /*************************************************************************************************
-SolverTypes -- Copyright (c) 2015, Markus Iser, KIT - Karlsruhe Institute of Technology
-
---------------- Former Glucose Copyrights
-
- Glucose -- Copyright (c) 2009-2014, Gilles Audemard, Laurent Simon
-                                CRIL - Univ. Artois, France
-                                LRI  - Univ. Paris Sud, France (2009-2013)
-                                Labri - Univ. Bordeaux, France
-
-Glucose sources are based on MiniSat (see below MiniSat copyrights). Permissions and copyrights of
-Glucose (sources until 2013, Glucose 3.0, single core) are exactly the same as Minisat on which it 
-is based on. (see below).
-
-
---------------- Original Minisat Copyrights
-
-Copyright (c) 2003-2006, Niklas Een, Niklas Sorensson
-Copyright (c) 2007-2010, Niklas Sorensson
+SolverTypes -- Copyright (c) 2024, Markus Iser, KIT - Karlsruhe Institute of Technology
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
 associated documentation files (the "Software"), to deal in the Software without restriction,
@@ -75,6 +58,7 @@ struct Lit {
     Lit() : x(0) { }
     Lit(unsigned var_id, bool sign) : x(2 * var_id + sign) { }
     Lit(Var var, bool sign) : Lit(var.id, sign) { }
+    explicit Lit(unsigned var_id) : Lit(var_id, false) { }
     explicit Lit(Var var) : Lit(var, false) { }
 
     inline operator int() const {

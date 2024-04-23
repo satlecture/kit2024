@@ -71,6 +71,17 @@ class CNFFormula {
         formula.clear();
     }
 
+    // print formula in DIMACS format
+    void printDimacs(std::ostream& out) const {
+        out << "p cnf " << variables << " " << formula.size() << std::endl;
+        for (Cl* clause : formula) {
+            for (Lit& lit : *clause) {
+                out << (lit.sign() ? "-" : "") << lit.var() << " ";
+            }
+            out << "0" << std::endl;
+        }
+    }
+
     // create gapless representation of variables
     void normalizeVariableNames() {
         std::vector<unsigned> name;
@@ -111,6 +122,13 @@ class CNFFormula {
         for (Cl* clause : formula) {
             readClause(clause->begin(), clause->end());
         }
+    }
+
+    void append(const CNFFormula& other) {
+        for (Cl* clause : other.formula) {
+            formula.push_back(new Cl(*clause));
+        }
+        variables = std::max(variables, other.variables);
     }
 
     template <typename Iterator>
