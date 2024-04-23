@@ -110,11 +110,14 @@ public:
 
     bool backtrack() {
         if (!trail_lim.empty()) {
-            for (int i = trail.size()-1; i > trail_lim.back(); i--) {
+            if (verb) std::cout << "Backtracking to position " << trail_lim.back() << std::endl;
+            for (int i = trail.size()-1; i >= (int)trail_lim.back(); i--) {
+                if (verb) std::cout << "Unassigning " << trail[i] << " at position " << i << std::endl;
                 val[trail[i].var()] = UNASSIGNED;
             }
             trail.resize(trail_lim.back());
             trail_lim.pop_back();
+            head = trail.size();
             return true;
         }
         return false;
