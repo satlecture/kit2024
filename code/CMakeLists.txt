@@ -4,6 +4,7 @@ project(satlecture)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_EXTENSIONS OFF)
+set(CMAKE_BUILD_TYPE RelDeb)
 
 add_library(cadical STATIC IMPORTED)
 set_target_properties(cadical PROPERTIES IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/libcadical.a)
