@@ -133,4 +133,29 @@ public:
     int size() {
         return trail.size();
     }
+
+    // Print the trail
+    void print() {
+        for (Lit lit : trail) {
+            std::cout << lit << " ";
+        }
+        std::cout << std::endl;
+    }
+
+    // Test if trail satisfies the formula
+    bool satisfies(CNFFormula& formula) {
+        for (Cl* cls : formula) {
+            bool sat = false;
+            for (Lit lit : *cls) {
+                if (val[lit.var()] == lit.sign() + 1) {
+                    sat = true;
+                    break;
+                }
+            }
+            if (!sat) {
+                return false;
+            }
+        }
+        return true;
+    }
 };
