@@ -6,6 +6,7 @@ Summer Term 2024
 
 - [Monday, April 15: Organisation, Introduction, Applications, Encodings, IPASIR](slides/l01-introduction.pdf)
 - [Monday, April 22: Tractable Subclasses, Tseitin Encoding, Cardinality Constraints, Finite Domain Encodings](slides/l02-encodings.pdf)
+- [Monday, April 29: Local Search, Resolution, DP Algorithm, DPLL Algorithm](slides/l03-algorithms.pdf)
 
 ## Exercises
 
