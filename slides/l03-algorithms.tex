@@ -53,21 +53,20 @@
 			\item Constraint Encodings and their Properties
 		\end{itemize}
 	\end{block}
+	\pause
 	\begin{block}{Today's Topics: Elementary SAT Algorithms}
 		\begin{itemize}\setlength{\itemsep}{1ex}
 			\item Local Search
 			\item Resolution
-			\item Propagation
 			\item DP Algorithm
 			\item DPLL Algorithm
-			\item Advanced DPLL Algorithm
 		\end{itemize}
 	\end{block}
 \end{frame}
 
 \begin{frame}{Stochastic Local Search (SLS)}
 \begin{block}{Minimize the Number of Unsatisfied Clauses}
-	Start with a \highl{random complete variable assignment} $\alpha$:
+	Start with a \highlo{random} complete variable assignment $\alpha$:
 	\begin{center}
 	  \resizebox*{0.8\textwidth}{!}{\includegraphics{figures/l03/random-ass-1.pdf}}
 	\end{center}
@@ -80,7 +79,7 @@
 	
 \begin{frame}{Stochastic Local Search (SLS)}
 \begin{block}{Properties of SLS Algorithms}
-	Local search algorithms are \highl{incomplete}: \highlo{They cannot show unsatisfiability!}\\[1em]
+	Local search algorithms are \highlo{incomplete}: They cannot show unsatisfiability!\\[1em]
 	Challenges: 
 	\begin{itemize}\setlength{\itemsep}{1ex}
 		\item Which variable should be flipped next?
@@ -133,9 +132,9 @@
 	\only<2>{\includegraphics[width=0.56\textwidth,page=2]{figures/l03/sls-perturbation.pdf}}%
 	\only<3>{\includegraphics[width=0.56\textwidth,page=3]{figures/l03/sls-perturbation.pdf}}%
 \end{center}
-\begin{small}
-[Illustration Adapted from: Alan Mackworth, UBC, Canada]
-\end{small}
+\begin{footnotesize}
+\hfill [Illustration Adapted from: Alan Mackworth, UBC, Canada]
+\end{footnotesize}
 \end{frame}
 	
 \begin{frame}{Classic SLS Algorithms}
@@ -181,12 +180,12 @@
 	\begin{center}
 	\setrowsep{1.5}
 	\begin{tabularx}{\linewidth}{lX}
-	\textbf{breakcount} & number of clauses satisfied in $\alpha$, but \highlo{not satisfied in $\alpha'$} \\
-	\textbf{makecount} & number of clauses not satisfied in $\alpha$, but \highlo{satisfied in $\alpha'$} \\
+	\textbf{breakcount} & number of clauses \highl{satisfied} in $\alpha$, but \highlo{not satisfied in $\alpha'$} \\
+	\textbf{makecount} & number of clauses \highlo{not satisfied} in $\alpha$, but \highl{satisfied in $\alpha'$} \\
 	\textbf{diffscore} & \# unsatisfied clauses in $\alpha$ $-$ \# unsatisfied clauses in $\alpha'$ \\
 	\end{tabularx}
 	\end{center}
-	Typically, {breakcount}, {makecount} and {diffscore} are updated \highl{after each flip}
+	Typically, {breakcount}, {makecount}, and/or {diffscore} are used to select the variable to flip.
 \end{block}
 \pause
 \begin{block}{Recap using new nomenclature}
@@ -202,19 +201,21 @@
 \begin{frame}{Stochastic Local Search (SLS)}
 \begin{block}{Legacy of SLS}
 \begin{itemize}\setlength{\itemsep}{1em}
-	\item Extremely \highl{successful and popular} in early days of SAT
+	\item<1-> Extremely \highl{successful and popular} in early days of SAT
 	\begin{itemize}\setlength{\itemsep}{1ex}
-		\item E.g., state of the art engine for \highl{automated planning} in the 90s
+		\item SLS outperformed early resolution-based solvers, e.g., based on DP or DPLL
+		\item for example, state of the art engine for \highl{automated planning} in the 90s
 	\end{itemize}
-	\item Today \highlo{outperformed} by sophisticated resolution-based solvers
+	\item<2-> Today, sophisticated resolution-based systematic search solvers dominate in most practical applications
 	\begin{itemize}\setlength{\itemsep}{1ex}
 		\item Faster, more reliable, and \highlo{complete!}
 	\end{itemize}
-	\item Still useful as a component in more complex solvers
+	\item<3-> Still useful as a component in more complex solvers
 	\begin{itemize}\setlength{\itemsep}{1ex}
-		\item Part of \highl{algorithm portfolios}
+		\item Part of (parallel) \highl{algorithm portfolios}
 		\item Control \highl{branching heuristics} in complete search algorithms
 		\item Detection of autarkies in \highl{formula simplification} algorithms
+		\item In combination with complete solvers for optimization problems (e.g., \highl{MaxSAT})
 	\end{itemize}
 \end{itemize}
 \end{block}
@@ -243,7 +244,7 @@
 \begin{block}{The Resolution Rule}
 \vspace*{-3ex}
 \begin{align*}
-	\cfrac{\Gamma_1 \cup l,\quad \Gamma_2 \cup \overline{l}}{\Gamma_1 \cup \Gamma_2}
+	\cfrac{P_1 \cup \{x\},\quad P_2 \cup \{\lnot x\}}{P_1 \cup P_2}
 \end{align*}
 Resolution is a logical \highlo{inference rule} to infer a \highlo{conclusion} (resolvent) from given \highlo{premises} (input clauses).
 \end{block}
@@ -251,10 +252,10 @@ Resolution is a logical \highlo{inference rule} to infer a \highlo{conclusion} (
 \begin{example}[Resolution]
 \vspace*{-3ex}
 \begin{align*}
-	\{ \highlo{x_1}, x_3, \overline{x_7} \}, \{ \highlo{\overline{x_1}}, x_2 \} \quad &\vdash \quad \{ x_3, \overline{x_7}, x_2 \} \\[1ex]
-	\{ x_4, \highlo{x_5} \}, \{ \highlo{\overline{x_5}} \} \quad &\vdash \quad \{ x_4 \} \tag{\highl{Fact}}\\[1ex]
-	\{ \highlo{x_1}, \highlo{x_2} \}, \{ \highlo{\overline{x_1}, \highlo{\overline{x_2}}} \} \quad &\vdash \quad \{ x_1, \overline{x_1} \} \tag{\highl{Tautological Resolvent}} \\[1ex]
-	\{ \highlo{x_1} \}, \{ \highlo{\overline{x_1}} \} \quad &\vdash \quad \{ \} \tag{\highl{Empty Clause}}
+	\{ \highlo{x_1}, x_3, \lnot {x_7} \}, \{ \highlo{\lnot {x_1}}, x_2 \} \quad &\vdash \quad \{ x_3, \lnot {x_7}, x_2 \} \\[1ex]
+	\{ x_4, \highlo{x_5} \}, \{ \highlo{\lnot {x_5}} \} \quad &\vdash \quad \{ x_4 \} \tag{\highl{Fact}}\\[1ex]
+	\{ \highlo{x_1}, \highlo{x_2} \}, \{ \highlo{\lnot {x_1}, \highlo{\lnot {x_2}}} \} \quad &\vdash \quad \{ x_1, \lnot {x_1} \} \tag{\highl{Tautological Resolvent}} \\[1ex]
+	\{ \highlo{x_1} \}, \{ \highlo{\lnot {x_1}} \} \quad &\vdash \quad \{ \} \tag{\highl{Empty Clause}}
 \end{align*}
 \end{example}
 \end{frame}
@@ -269,23 +270,23 @@ Given a CNF formula $F$ with two resolvable clauses $C_1, C_2 \subseteq F$ with 
 \end{block}
 	
 \begin{block}{Proof}
-Let $C_1 := \{ l \} \cup P_1$ and $C_2 := \{ \lnot l \} \cup P_2$ such that $\operatorname{R}(C_1,C_2) = P_1 \cup P_2 =: D$.\\[1ex]
+Let $C_1 := \{ x \} \cup P_1$ and $C_2 := \{ \lnot x \} \cup P_2$ such that $\operatorname{R}(C_1,C_2) = P_1 \cup P_2 =: D$.\\[1ex]
 
 \textbf{Soundness:} $F \vdash F \land D \implies \highlo{F \models~} F \land D$ \\[.5ex]
 Any satisfying assignment $\phi$ of $F$ is also a satisfying assignment of $D$:
-Since $\phi$ satisfies both $C_1$ and $C_2$, it necessarily \highlo{satisfies at least one literal in $D$}. If $\phi$ satisfies $l$ then it satisfies some literal in $P_2$. Otherwise, if $\phi$ satisfies $\lnot l$ then it satisfies some literal in $P_1$.\\[1ex]
-
+Since $\phi$ satisfies both $C_1$ and $C_2$, it necessarily \highlo{satisfies at least one literal in $D$}. If $\phi$ satisfies $x$ then it satisfies some literal in $P_2$. Otherwise, if $\phi$ satisfies $\lnot x$ then it satisfies some literal in $P_1$.\\[1ex]
+\pause
 \textbf{Equivalence:} $F \vdash F \land D \implies F \land D \highlo{~\models F}$ \\[.5ex]
 Since $D$ does not introduce new variables, $F \wedge D$ can not have more satisfying assignments than $F$.
 \end{block}
 \end{frame}
 	
 \begin{frame}{Resolution}
-\begin{block}{Resolution is \highlow{Refutation} Complete}
+\begin{block}{Resolution is Sound and \highlow{Refutation} Complete}
 \begin{itemize}\setlength{\itemsep}{1ex}
-	\item If we manage to infer the \highlo{empty clause} from a CNF formula $F$, then $F$ is unsatisfiable.
-	\item If $F$ is unsatisfiable, then there \highlo{exists a refutation by resolution}.
-	\item \highlo{Not all possible} consequences of $F$ can be derived by resolution.
+	\item If we manage to infer the \highlo{empty clause} from a CNF formula $F$, then $F$ is unsatisfiable. (sound)
+	\item If $F$ is unsatisfiable, then there \highlo{exists a refutation by resolution}. (complete)
+	\item \highlo{Not all possible} consequences of $F$ can be derived by resolution. (``only'' refutation complete)
 \end{itemize}
 \end{block}
 
@@ -345,7 +346,7 @@ Resolution where at least one of the resolved clauses is a \highl{unit clause}, 
 \begin{example}[Unit Resolution]
 \vspace*{-3ex}
 \begin{align*}
-	\operatorname{R}((x_1 \vee x_7 \vee \highlo{\overline{x_2}} \vee x_4), (\highl{x_2})) = (x_1 \vee x_7 \vee x_4)
+	\operatorname{R}((x_1 \vee x_7 \vee \highlo{\lnot {x_2}} \vee x_4), (\highl{x_2})) = (x_1 \vee x_7 \vee x_4)
 \end{align*}
 \end{example}
 \pause
