@@ -388,12 +388,11 @@ Usually, we are only interested in the inferred facts (unit clauses) and conflic
 Presented in 1960 as a SAT procedure for first-order logic.
 \begin{block}{Deduction Rules of DP Algorithm}
 \begin{itemize}\setlength{\itemsep}{1em}
-	\item \textbf{Unit Resolution:} If there is a unit clause $C = \{ l \} \in F$, 
-	\highl{simplify all other clauses} containing $l$
-	\item \textbf{Pure Literal Elimination:} If a literal $l$ \highl{never occurs negated} in $F$,
-	add clause $\{ l \}$ to $F$
-	\item \textbf{Case Splitting:} Put $F$ in the form $(A \lor l) \land (B \lor \overline{l}) \land R$,
-	where $A$, $B$, and $R$ are clause sets \highl{free of $l$}.
+	\item \textbf{Unit Resolution:} If there is a unit clause $C = \{ \overline x \} \in F$, 
+	\highl{simplify all other clauses} containing $x$
+	\item \textbf{Pure Literal Elimination:} If a literal $x$ \highl{never occurs negated} in $F$, add clause $\{ x \}$ to $F$
+	\item \textbf{Case Splitting:} Put $F$ in the form $(A \lor x) \land (B \lor \lnot x) \land R$,
+	where $A$, $B$, and $R$ are clause sets \highl{free of $x$}.
 	Replace $F$ by the clausification of $(A \lor B) \land R$
 \end{itemize}~\\
 Apply above deduction rules (prioritizing rules 1 and 2) until one of the following situations occurs: 
@@ -595,7 +594,7 @@ stop if \highl{satisfying assignment} found or \highlo{all branches are unsatisf
 \begin{column}{.2\linewidth}
 ~\\[1em]
 $(S,\alpha)$ is the clause set \highlo{$S$ as ``seen'' under partial assignment $\alpha$}\\[1em]
-\highlo{No pure literal elimination} (it is too slow for the benefit it provides)\\[1em]
+\highlo{No explicit pure literal elimination} (it is too slow for the benefit it provides)\\[1em]
 \textsf{trailDPLL()} leads to efficient \highl{iterative DPLL implementation}
 \end{column}
 \begin{column}{.7\linewidth}
