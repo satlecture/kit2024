@@ -342,13 +342,15 @@ $1, 1, 2, 1, 1, 2, 4, 1, 1, 2, 1, 1, 2, 4, 8, \dots$
 \begin{block}{Luby Sequence: Reluctant Doubling}
 A \highl{more efficient implementation} of the Luby sequence invented by Donald Knuth\\[1ex]
 Use the $v_n$ of the following pairs $(u_n, v_n)$:\\[1ex]
-a\texttt{($u_1$, $v_1$) = (1, 1);}\\
+\texttt{($u_1$, $v_1$) = (1, 1);}\\
 \texttt{($u_{n+1}$, $v_{n+1}$) = $u_n$ \& -$u_n$ == $v_n$\ ?\ ($u_n$+1, 1) :\ ($u_n$, 2$v_n$);}
 \end{block}
 \begin{example}[Luby Sequence]
 (1,1), (2,1), (2,2), (3,1), (4,1), (4,2), (4,4), (5,1), \ldots
 \end{example}
 \end{frame}
+
+
 		
 \begin{frame}{Branching Polarity: Phase Saving}
 Observation: Frequent {restarts} \highlo{decrease performance} on some satisfiable instances\\[1em]
@@ -394,136 +396,62 @@ Example: $A$ and $B$ are satisfied, search works on component $C$
 
 
 \begin{frame}{DPLL: Backtracking}
-
 \begin{exampleblock}{Example: Chronological Backtracking}
+\begin{columns}[T]
+\begin{column}{.45\textwidth}
+	\begin{flalign*}
+	\bigl\{ & \{A, B\}, \{B, C\}, \{\neg A, \neg X, Y \}, &&\\
+	& \{\neg A, X, Z\}, \{\neg A, X, \neg Z\}, &&\\
+	& \{\neg A, \neg Y, Z\}, \{\neg A, \neg Y, \neg Z \} \bigr\} \tag{Formula} &&\\[1em]
+	\only<1>{ & \highlo{A, B, C, X}, Y, Z \tag{Trail} &&\\[1em]} 
+	\only<2>{ & \highlo{A, B, C, \neg X}, Z \tag{Trail} &&\\[1em]}
+	\only<1>{& \color{myred} \{\neg A, \neg Y, \neg Z \} && \tag{Conflicting Clause}}
+	\only<2>{& \color{myred} \{\neg A, X, \neg Z\} && \tag{Conflicting Clause}}
+	\end{flalign*}~\\[-4em]
+	\only<3>{
+	\textbf{Observation:}
+	Conflicting clauses $\{\neg A, \neg Y, \neg Z \}$, $\{\neg A, X, \neg Z\}$ constrain only a fraction of the trail ($B$ and $C$ irrelevant)\\[1em]
+	How to find out which assignments on the trail are \highlo{relevant for the actual conflict} \highl{and immediately backtrack to $A$}?
+	}
+\end{column}
+\begin{column}{.45\textwidth} 
+	\centering
+	\begin{tikzpicture}[node distance=2em]
+		\node at (current page.north east) (a) { A };
+		\node[below left=2ex of a] (b0) { B };
+		\node[right=5em of b0] (b1) { [B=1] };
+		\node[below=of b0] (c0) { C };
+		\node[below=of c0] (x0) { X };
+		\node[below=of x0, xshift=-2em] (y0) { [Y=1] };
+		\node[below=2ex of y0] (z1) { [Z=1,Z=0]\blitz };
+		\node[right=1ex of y0] (z0) { [Z=1,Z=0]\blitz };
 
-\begin{minipage}{0.6\textwidth} 
-\begin{tikzpicture}[node distance=2em]
-\begin{scope}[node distance=2em]
-\node at (current page.north east) (a) { A };
-\node[below left=of a] (b0) { B };
-\node[below right=of a] (b1) { [B=1] };
-\end{scope}
+		\draw[->] (a) -- (b0) node [near start, left] {1} -- (c0) node [near start, left] {1} -- (x0) node [near start, left] {1} -- (y0) node [near start, left] {1} -- (z1);
+		\draw[->] (x0) -- (z0) node [near start, right] {0};
+		\draw[->] (a) -- (b1) node [near start, right] {0};
 
-\begin{scope}[node distance=3em]
-\node[below left=of b0] (c0) { C };
-\node[below right=of b0] (c1) { [C=1] };
-\node[below left=of c0, xshift=1em] (x0) { X };
-\node[below right=of c0, xshift=-1em] (x1) { X };
-\node[below=of c1, yshift=1em] (x2) { X };
-\end{scope}
+		\only<1-2> {
+			\node[below=of b1] (c1) { [C=1] };
+			\node[below=of c1] (x1) { X };
+			\node[right=4em of x1] (x2) { X };
+			\node[right=1ex of z0] (l0) {\blitz};
+			\node[right=1ex of l0] (l1) {\blitz};
+			\node[right=1ex of l1] (l2) {\blitz};
+			\node[right=1ex of l2] (l3) {\blitz};
+			\draw[->] (c0) -- (x1) node [near start, right] {0} -- (l0) node [near start, left] {1};
+			\draw[->] (c0) -- (x1) node [near start, right] {0} -- (l1) node [near start, right] {0};
+			\draw[->] (b0) -- (c1) node [near start, right] {0} -- (x2) -- (l2) node [near start, left] {1};
+			\draw[->] (b0) -- (c1) node [near start, right] {0} -- (x2) -- (l3) node [near start, right] {0};
+		}
 
-
-\begin{scope}[node distance=1em]
-\node[below left=of x0, xshift=1em, yshift=-1em] (y0) { [Y=1] };
-\node[below right=of x0, xshift=-1em, yshift=-1em] (z0) { [Z]\blitz };
-\node[below=of y0] (z1) { [Z]\blitz };
-
-\node[below left=of x1, xshift=1em, yshift=-1em] (l0) {\blitz};
-\node[below right=of x1, xshift=-1em, yshift=-1em] (l1) {\blitz};
-\node[below left=of x2, xshift=1em, yshift=-1em] (l2) {\blitz};
-\node[below right=of x2, xshift=-1em, yshift=-1em] (l3) {\blitz};
-\end{scope}
-
-\begin{scope}[every node/.append style = {font=\footnotesize, inner sep=2pt}]
-\draw[->] (a) -- (b0) node [near start, left] {1};
-\draw[->] (b0) -- (c0) node [near start, left] {1};
-\draw[->] (c0) -- (x0) node [near start, left] {1};
-\draw[->] (x0) -- (y0) node [near start, left] {1};
-\draw[->] (y0) -- (z1) node [near start, left] {1};
-
-\draw[->] (x0) -- (z0) node [near start, right] {0};
-
-\draw[->] (a) -- (b1) node [near start, right] {0};
-\draw[->] (b0) -- (c1) node [near start, right] {0};
-\draw[->] (c0) -- (x1) node [near start, right] {0};
-\draw[->] (c1) -- (x2) node [near start, right] {0};
-
-\draw[->] (x1) -- (l0) node [near start, left] {1};
-\draw[->] (x1) -- (l1) node [near start, right] {0};
-\draw[->] (x2) -- (l2) node [near start, left] {1};
-\draw[->] (x2) -- (l3) node [near start, right] {0};
-\end{scope}
-
-\only<1> {
-\draw[->, myblue, line width=1.2pt] (a) -- (b0);
-\draw[->, myblue, line width=1.2pt] (b0) -- (c0);
-\draw[->, myblue, line width=1.2pt] (c0) -- (x0);
-\draw[->, myblue, line width=1.2pt] (x0) -- (y0);
-\draw[->, myblue, line width=1.2pt] (y0) -- (z1);
-}
-\only<2> {
-\draw[->, myblue, line width=1.2pt] (a) -- (b0);
-\draw[->, myblue, line width=1.2pt] (b0) -- (c0);
-\draw[->, myblue, line width=1.2pt] (c0) -- (x0);
-\draw[->, myblue, line width=1.2pt] (x0) -- (z0);
-}
-\end{tikzpicture}
-\end{minipage}%
-\begin{minipage}{0.39\textwidth} 
-~\\[-3em]
-\begin{align*}
-F = \bigl\{ & \{A, B\}, \\
-& \{B, C\}, \\
-& \{\neg A, \neg X, Y \}, \\
-& \{\neg A, X, Z\}, \\
-& \{\neg A, \neg Y, Z\}, \\
-& \{\neg A, X, \neg Z\}, \\
-& \{\neg A, \neg Y, \neg Z \} \bigr\}
-\end{align*}
-
-\begin{itemize}
-\item Trail: 
-\only<1>{$A, B, C, X, Y, Z$}
-\only<2>{$A, B, C, \neg X, Z$}
-\item Conflicting Clause: 
-\only<1>{\color{myred} $\{\neg A, \neg Y, \neg Z \}$}
-\only<2>{\color{myred} $\{\neg A, X, \neg Z\}$}
-\end{itemize}
-\end{minipage}
-\end{exampleblock}
-\end{frame}
-
-
-\begin{frame}{DPLL: Backtracking}
-\begin{exampleblock}{Example: Backjumping}
-\begin{minipage}{0.4\textwidth} 
-\begin{tikzpicture}[node distance=2em]
-\begin{scope}[node distance=1.5em]
-\node at (current page.north east) (a) { A };
-\node[below left=of a] (b0) { B };
-\node[below right=of a, xshift=-1em] (b1) { [B=1] };
-
-\node[below=of b0] (c0) { C };
-\node[below=of c0] (x0) { X };
-
-\node[below left=of x0, xshift=1em] (y0) { [Y=1] };
-\node[below right=of x0, xshift=-2em] (z0) { [Z=1, Z=0]\blitz };
-\node[below=of y0] (z1) { [Z=1, Z=0]\blitz };
-\end{scope}
-
-\begin{scope}[every node/.append style = {font=\footnotesize, inner sep=2pt}]
-\draw[->] (a) -- (b0) node [near start, left] {1};
-\draw[->] (b0) -- (c0) node [near start, left] {1};
-\draw[->] (c0) -- (x0) node [near start, left] {1};
-\draw[->] (x0) -- (y0) node [near start, left] {1};
-\draw[->] (y0) -- (z1) node [near start, left] {1};
-
-\draw[->] (x0) -- (z0) node [near start, right] {0};
-
-\draw[->] (a) -- (b1) node [near start, right] {0};
-\end{scope}
-\end{tikzpicture}
-
-
-\end{minipage}%
-\begin{minipage}{0.6\textwidth} 
-\begin{itemize}
-\item The first two conflicting clauses $\{\neg A, \neg Y, \neg Z \}$, $\{\neg A, X, \neg Z\}$ contain only a fraction of the assignments on the trail
-\item Assignments to $B$ and $C$ obviously play no role in the present conflicting state and we could immediately backtrack to flip the assignment to $A$
-\item How to find out which assignments on the trail are relevant for the actual conflict?
-\end{itemize}
-\end{minipage}
+		\begin{scope}[every path/.style={->, draw=myblue, ultra thick}]
+			\only<1> { \draw (a) -- (b0) -- (c0) -- (x0) -- (y0) -- (z1); }
+			\only<2> { \draw (a) -- (b0) -- (c0) -- (x0) -- (z0); }
+			\only<3> { \draw (a) -- (b1); }
+		\end{scope}
+	\end{tikzpicture}
+\end{column}
+\end{columns}
 \end{exampleblock}
 \end{frame}
 
@@ -531,33 +459,33 @@ F = \bigl\{ & \{A, B\}, \\
 \begin{frame}{Implication Graph}
 Given: Formula $F$, assignment trail $T$ and conflicting clause $C$.
 
-The implication graph is a DAG $G=(V \cup \{ \text{\blitz} \},E)$ of 
-\begin{itemize}
-	\item vertex \blitz representing the conflicting assignment (all literals of $C$ have edges to \blitz)
-	\item vertices $v := [x=b,d]$ for each assignment $x=b$ (with decision level $d$)
-	\item edges $e := ([l_i=0, d_i], [u=1, d_i])$ for each unit propagation of a literal $u$ from $[l_i=0, d_i]$ (due to a clause $\{ l_1,\dots, l_k, u \})$
+\begin{block}{Definition: Implication Graph}
+The implication graph is a DAG $G=(V \cup \{ \text{\blitz} \},E)$ of \\[1ex]
+\begin{itemize}\setlength{\itemsep}{1em}
+	\item vertices $[\ell_i,d_i]$ for each literal $\ell_i$ with decision level $d_i$ on the trail
+	\item vertex \blitz{} representing the conflicting assignment\\[1ex] Note: all literals of $C$ have edges to \blitz{}
+	\item edges $\bigl([\ell_i, d_i], [u_{i,j}, d_i]\bigr)$ for each propagated literal $u_{i,j}$ at decision level $d_i$
 \end{itemize}
+\end{block}
+\textbf{Observations:}\\[1ex]
+The sink is always the \highlo{conflicting assignment}, and the sources are the \highlo{desicion literals} involved in the conflict.\\[1ex]
+We can use this to determine the \highlo{reasons for the conflict}.
 \end{frame}
 
 
 \begin{frame}{Conflict Analysis}
-\only<1>{
-The graph shows the implication graph for the conflicting state under the trail $A, B, C, X, Y, Z$. The edge labels denote clauses, node labels indicate an assignment and its decision level. 
-}
-\only<2>{
-\begin{itemize}
-\item the sink is always the conflicting assignment
-\item the sources are the desicion literals that take part in the conflict
-\item we can use it to detect the \emph{reasons} for a conflict
-\end{itemize}
-}
-\only<3>{
-In our example we can learn the clause $\{\neg A, \neg X\}$ in order to prevent the solver to pick the same partial assignment again. 
-This can also be expressed as a sequence of resolution steps: $C = (7 \circ_Z 5) \circ_Y 3$
-}
 \begin{exampleblock}{Example: Implication Graph}
-\vspace*{-1em}
-\begin{minipage}{0.6\textwidth} 
+Implication graph for the conflicting state under the trail $A, B, C, X, Y, Z$.\\
+The edge labels denote \highlo{clauses}, node labels indicate a variable assignment and its \highl{decision level}.\\
+\begin{columns}[T]
+\begin{column}{0.3\textwidth}
+~\\[1ex]
+\begin{itemize}\setlength{\itemsep}{1em}
+	\item Consider inferring the clause $\{\neg A, \neg X\}$ by the following resolution steps: $(7 \circ_Z 5) \circ_Y 3$.
+	\item Learning of $\{\neg A, \neg X\}$ prevents the solver choosing the same partial assignment again.
+\end{itemize}
+\end{column}
+\begin{column}{0.35\textwidth} 
 \begin{tikzpicture}[->, thick, node distance=0.7cm]
 \node (A) [circle] { $_{\color{myblue} 1}A=1$ };
 \node (B) [circle, below=of A, yshift=1cm] { $_{\color{myblue} 2}B=1$ }; 
@@ -574,99 +502,77 @@ This can also be expressed as a sequence of resolution steps: $C = (7 \circ_Z 5)
 \draw (Z) -- (empty) node [midway, above] {\color{myred} 7 };
 \draw (X) -- (Y) node [midway, above] {\color{myred} 3 };
 \draw (Y) -- (empty) node [near start, below] {\color{myred} 7 };
-\end{tikzpicture}
-\end{minipage}%
-\begin{minipage}{0.4\textwidth} 
+\end{tikzpicture}%
+\end{column}%
+\begin{column}{.25\textwidth} 
 \begin{align*}
-F = \{ & \{A, B\}, & =:{\color{myred}1}\\
-& \{B, C\}, & =:{\color{myred}2}\\
-& \{\neg A, \neg X, Y \}, & =:{\color{myred}3}\\
-& \{\neg A, X, Z\}, & =:{\color{myred}4}\\
-& \{\neg A, \neg Y, Z\}, & =:{\color{myred}5}\\
-& \{\neg A, X, \neg Z\}, & =:{\color{myred}6}\\
-& \{\neg A, \neg Y, \neg Z \} \}& =:{\color{myred}7}
-\end{align*}
-\end{minipage}
-\end{exampleblock}
-\end{frame}
-			
-			
-\begin{frame}{Implementation: Conflict Analysis}
-\begin{itemize}
-\item for each assignment store a pointer to the \emph{reason clause} and the \emph{decision level} on a stack
-\item decision literals store a null pointer
-\item with the clause pointers and the trail we can trace all the implications back to their sources
-\end{itemize}
-\begin{exampleblock}{Example: Trail with conflicting clause $\{\lnot A, \lnot Y, \lnot Z \}$}
-\begin{tabular}{ccl}
-\blitz & 4 & $\{\lnot A, \lnot Y, \lnot Z \}$ \\
-Z & 4 & $\{\lnot A, \lnot Y, Z \}$ \\
-Y & 4 & $\{\lnot A, \lnot X, Y \}$ \\
-X & 4 & null\\
-C & 3 & null\\
-B & 2 & null\\
-A & 1 & null\\
-\end{tabular}
+\{ & \{A, B\}, \tag{\highlo{1}}\\
+& \{B, C\}, \tag{\highlo{2}}\\
+& \{\neg A, \neg X, Y \}, \tag{\highlo{3}}\\
+& \{\neg A, X, Z\}, \tag{\highlo{4}}\\
+& \{\neg A, \neg Y, Z\}, \tag{\highlo{5}}\\
+& \{\neg A, X, \neg Z\}, \tag{\highlo{6}}\\
+& \{\neg A, \neg Y, \neg Z \} \}\tag{\highlo{7}}
+\end{align*}%
+\end{column}%
+\end{columns}%
 \end{exampleblock}
 \end{frame}
 
-
-\begin{frame}{Implementation: Conflict Analysis}
-\begin{exampleblock}{Example: Trail with conflicting clause $\{\lnot A, \lnot Y, \lnot Z \}$}
-\begin{minipage}{.37\linewidth}
-\begin{tabular}{ccl}
-\blitz & 4 & $\{\lnot A, \lnot Y, \lnot Z \}$ \\
-Z & 4 & $\{\lnot A, \lnot Y, Z \}$ \\
-Y & 4 & $\{\lnot A, \lnot X, Y \}$ \\
-X & 4 & null\\
-C & 3 & null\\
-B & 2 & null\\
-A & 1 & null\\
-\end{tabular}
-\end{minipage}%
-\begin{minipage}{.65\linewidth}
-\vspace*{-2em}
-\textbf{Trail Resolution:}
-\setlength{\leftmargini}{1em}
-\begin{itemize}
-\item $\{\lnot A, \lnot Y, \lnot Z\}\!\otimes_Z\!\{\lnot A, \lnot Y, Z\}\!=\!\{\lnot A, \lnot Y\}$
-\item $\{\lnot A, \lnot Y\}\!\otimes_Y\!\{\lnot A, \lnot X, Y \}\!=\!\{\lnot A, \lnot X\}$
-\item Conflict Clause $C = \{\lnot A, \lnot X\}$
-\item Backtrack Level $b = 1$
-\end{itemize} 
-\end{minipage}
-\end{exampleblock}
-
-\begin{block}{Properties of conflict clause C}
-\begin{itemize}
-\item $F \models C$ 
-\item $F \cup \lnot C \vdash_{UP} \bot$
-\item $D \notin F, \forall D \subseteq C$
-\end{itemize}
-\end{block}
+\begin{frame}{Conflict Analysis: Implementation}
+Implement trail as \highl{stack of literals} together with a pointer to the \highlo{reason clause} (nullptr for decisions) and the \highlo{decision level}. On each conflict, use the trail to trace back the implications to the conflict sources.
+\begin{example}[Trail with conflicting clause $\{\lnot A, \lnot Y, \lnot Z \}$]
+~\\[1ex]
+\begin{columns}[T]
+\begin{column}{.3\linewidth}
+	\begin{tabular}{ccl}
+	\blitz & 4 & $\{\lnot A, \lnot Y, \lnot Z \}$ \\
+	Z & 4 & $\{\lnot A, \lnot Y, Z \}$ \\
+	Y & 4 & $\{\lnot A, \lnot X, Y \}$ \\
+	X & 4 & null\\
+	C & 3 & null\\
+	B & 2 & null\\
+	A & 1 & null\\
+	\end{tabular}
+\end{column}
+\begin{column}{.6\linewidth}
+	\textbf{Trail Resolution:}
+	\setlength{\leftmargini}{1em}
+	\begin{itemize}\setlength{\itemsep}{1ex}
+	\item $\{\lnot A, \lnot Y, \lnot Z\}\!\otimes_Z\!\{\lnot A, \lnot Y, Z\}\!=\!\{\lnot A, \lnot Y\}$
+	\item $\{\lnot A, \lnot Y\}\!\otimes_Y\!\{\lnot A, \lnot X, Y \}\!=\!\{\lnot A, \lnot X\}$
+	\item Conflict Clause $C = \{\lnot A, \lnot X\}$
+	\item Backtrack Level $b = 1$
+	\end{itemize} 
+\end{column}
+\end{columns}
+\end{example}
 \end{frame}
 
 
-\begin{frame}{Unit Implication Points (UIP)}
-\begin{itemize}
-	\item UIP is a dominator in the implication graph
-	\item A node $v$ is a dominator for \blitz, if all paths to \blitz contain $v$
-	\item FirstUIP: ``first'' dominator (seen from conflict side)
-\end{itemize}
-
-\begin{exampleblock}{Several possibilities to learn a clause from an implication graph}
-A clause can be learned for every cut in the the implication graph.\footnote{Understanding the Power of Clause Learning (2003, Beame et al.)}%
-\begin{center}%
-~\\[-2em]
-\includegraphics[width=.5\linewidth]{figures/l04/implicationgraphcuts.png}
-\end{center}
-\end{exampleblock}%
+\begin{frame}{Conflict Analysis: Unit Implication Points (UIP)}
+\begin{block}{Several possibilities to learn a clause from an implication graph}
+\begin{columns}[T]
+\begin{column}{0.5\textwidth}
+	~\\[1ex]
+	\begin{itemize}\setlength{\itemsep}{1ex}
+		\item UIP is a dominator in the implication graph
+		\item A node $v$ is a dominator for \blitz, if all paths to \blitz contain $v$
+		\item FirstUIP: ``first'' dominator (seen from conflict side)
+	\end{itemize}
+\end{column}
+\begin{column}{0.5\textwidth}
+	\includegraphics[width=\linewidth]{figures/l04/implicationgraphcuts.png}
+	\hfill*\footnotesize{[From: Beame et al. 2003]}
+\end{column}
+\end{columns}
+\end{block}%
 \end{frame}
 			
 			
-\begin{frame}{Unit Implication Points (UIP)}
+\begin{frame}{Conflict Analysis: Unit Implication Points (UIP)}
 \begin{block}{1-UIP Learning}
-\begin{itemize}
+\begin{itemize}\setlength{\itemsep}{1em}
 \item FirstUIP-clause: resolve conflicting clause and reason clauses until only a single literal of the current decision level remains 
 \item Advantage: Stopping at a UIP always leads to an asserting clause. Algorithm becomes easier: backtrack until clause becomes asserting
 \item The assertion level is the second highest level in a conflict clause
@@ -749,15 +655,40 @@ Conflicting Clause:
 \end{frame}
 			
 \begin{frame}{Resolution Proof}
-\begin{block}{CDCL can derive a complete resolution refutation}
-\begin{itemize}
-\item proof can serve as a certificate for validating the correctness of the SAT solver\footnote{\url{http://www.cs.utexas.edu/~marijn/drat-trim/}}
-\item resolution refutations based on clause learning find key practical applications (e.g. model checking) 
-\item can help to determine minimally unsatisfiable subsets in an unsatisfiable formula
+\begin{block}{Properties of conflict clause C}
+\begin{itemize}\setlength{\itemsep}{1em}
+	\item $F \models C$ 
+	\item $F \cup \lnot C \vdash_{UP} \bot$
+	\item $D \notin F, \forall D \subseteq C$
+\end{itemize}
+\end{block}
+\begin{block}{Certificates for Unsatisfiability}
+\begin{itemize}\setlength{\itemsep}{1em}
+	\item sequence of learned clauses serves as a \highlo{proof of unsatisfiability}
+	\item can be used to validate the correctness of the SAT result in \highlo{high risk applications} (e.g., verification)
 \end{itemize}
 \end{block}
 \end{frame}
 
-			
+\begin{frame}{The End.}
+\begin{block}{Recap}
+	\begin{itemize}\setlength{\itemsep}{1em}
+		\item Decision Heuristics
+		\begin{itemize}\setlength{\itemsep}{1ex}
+			\item Böhm's Heuristic
+			\item Mom's Heuristic
+			\item Jeroslow-Wang Heuristic
+			\item (R)DLCS and (R)DLIS Heuristics
+		\end{itemize}
+		\item Restart Strategies
+		\begin{itemize}\setlength{\itemsep}{1ex}
+			\item Inner / Outer Pattern
+			\item Luby Sequence / Reluctant Doubling
+		\end{itemize}
+		\item Branching Polarity: Phase Saving
+		\item Conflict Analysis, Clause Learning
+	\end{itemize}
+\end{block}
+\end{frame}
 
 \end{document}
