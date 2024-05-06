@@ -556,7 +556,8 @@ Implement trail as \highl{stack of literals} together with a pointer to the \hig
 \begin{column}{0.5\textwidth}
 	~\\[1ex]
 	\begin{itemize}\setlength{\itemsep}{1ex}
-		\item UIP is a dominator in the implication graph
+		\item UIP is a dominator in the implication graph (restricted to variables assigned at the current
+		decision level)
 		\item A node $v$ is a dominator for \blitz, if all paths to \blitz contain $v$
 		\item FirstUIP: ``first'' dominator (seen from conflict side)
 	\end{itemize}
