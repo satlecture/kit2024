@@ -44,7 +44,7 @@ int main(int argc, char **argv) {
 	CNFFormula formula(argv[1]);
     int seed = argc > 2 ? std::stoi(argv[2]) : 0; 
 
-	std::cout << "c Testing if formula " << argv[1] << " can be satisfied by SLUR algorithm." << std::endl;
+	std::cout << "c Testing if formula " << argv[1] << " can be solved by SLUR algorithm." << std::endl;
 	
     Trail trail {};
     if (!trail.init(formula)) {
