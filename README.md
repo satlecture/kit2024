@@ -14,6 +14,10 @@ Summer Term 2024
 - [Tuesday, April 23: Assignment 1 (Coloring and Sudoku Competitions, Pythagorean Triples, Tseitin Encoding)](exercises/ex1.pdf)
 - [Tuesday, May 7: Assignment 2 (Tetris and Local Search Competitions, Resolution, Hidden Horn)](exercises/ex2.pdf)
 
+## Slides used in the Exercises
+
+- [Cumulative Slideset](slides/exercises.pdf)
+
 ## Code
 
 The `code/src/util` directory contains a CNF file parser that is called when instantiating the class in `CNFFormula.h`, which can also read packed CNF files.
