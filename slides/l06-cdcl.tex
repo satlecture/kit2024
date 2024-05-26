@@ -631,69 +631,62 @@ Modern Branching Heuristics
 %     \end{block}
 % \end{frame}
 
-\begin{frame}{Instance: Aprove (Termination Analysis)}
-    \vspace*{-2em}
-    \graphicspath{ {satvizpdf/} }
-    \only<1>{
-        \begin{block}{1000 Conflicts}
-        \centering\includegraphics[width=0.9\textwidth, trim={100 0 100 100}, clip]{satviz-aprove-1000}
-        \end{block}
-    }
-    \only<2>{
-        \begin{block}{1690 Conflicts}
-        \centering\includegraphics[width=0.9\textwidth, trim={100 0 100 100}, clip]{satviz-aprove-1690}
-        \end{block}
-    }
-    \only<3>{
-        \begin{block}{3090 Conflicts}
-        \centering\includegraphics[width=0.9\textwidth, trim={100 0 100 100}, clip]{satviz-aprove-3090}
-        \end{block}
-    }
-    \only<4>{
-        \begin{block}{5000 Conflicts}
-        \centering\includegraphics[width=0.9\textwidth, trim={100 0 100 100}, clip]{satviz-aprove-5000}
-        \end{block}
-    }
-    \only<5>{
-        \begin{block}{6000 Conflicts (Relayout)}
-        \centering\includegraphics[width=0.9\textwidth, trim={100 0 100 100}, clip]{satviz-aprove-6000-relayout}
-        \end{block}
-    }
-    \only<6>{
-        \begin{block}{52500 Conflicts (Core)}
-        \centering\includegraphics[width=0.9\textwidth, trim={100 0 100 100}, clip]{satviz-aprove-52500-zoom}
-        \end{block}
-    }
+\graphicspath{ {satvizpdf/} }
+
+\begin{frame}{Instance: Aprove (Termination Analysis)}{
+    \only<1>{initial layout, recently active variables after 1000 conflicts}
+    \only<2>{initial layout, recently active variables after 1690 conflicts}
+    \only<3>{initial layout, recently active variables after 3090 conflicts}
+    \only<4>{initial layout, recently active variables after 5000 conflicts}
+    \only<5>{relayout after 6000 conflicts}
+    \only<6>{core after 52500 conflicts}
+}
+\centering
+\vspace*{-1em}
+\only<1>{
+\includegraphics[width=0.9\textwidth, trim={100 0 100 100}, clip]{satviz-aprove-1000}
+}
+\only<2>{
+\includegraphics[width=0.9\textwidth, trim={100 0 100 100}, clip]{satviz-aprove-1690}
+}
+\only<3>{
+\includegraphics[width=0.9\textwidth, trim={100 0 100 100}, clip]{satviz-aprove-3090}
+}
+\only<4>{
+\includegraphics[width=0.9\textwidth, trim={100 0 100 100}, clip]{satviz-aprove-5000}
+}
+\only<5>{
+\includegraphics[width=0.9\textwidth, trim={100 0 100 100}, clip]{satviz-aprove-6000-relayout}
+}
+\only<6>{
+\includegraphics[width=0.9\textwidth, trim={100 0 100 100}, clip]{satviz-aprove-52500-zoom}
+}
 \end{frame}
 
-\begin{frame}{Instance: Newton SMT (SV Competition)}
-    \vspace*{-2em}
-    \graphicspath{ {satvizpdf/} }
-    \only<1>{
-        \begin{block}{}
-        \centering\includegraphics[width=0.9\textwidth, trim={100 0 100 100}, clip]{newton-smt-5200}
-        \end{block}
-    }
-    \only<2>{
-        \begin{block}{10000 Conflicts (Relayout)}
-        \centering\includegraphics[width=0.9\textwidth, trim={100 0 100 100}, clip]{newton-smt-10000}
-        \end{block}
-    }
-    \only<3>{
-        \begin{block}{1000000 Conflicts (Relayout)}
-        \centering\includegraphics[width=0.9\textwidth, trim={100 0 100 100}, clip]{newton-smt-1000000}
-        \end{block}
-    }
-    \only<4>{
-        \begin{block}{3000000 Conflicts (Relayout)}
-        \centering\includegraphics[width=0.9\textwidth, trim={100 0 100 30}, clip]{newton-smt-3000000}
-        \end{block}
-    }
-    \only<5>{
-        \begin{block}{3500000 Conflicts (Core)}
-        \centering\includegraphics[width=0.9\textwidth, trim={100 0 100 100}, clip]{newton-smt-3500000-cherry}
-        \end{block}
-    }
+\begin{frame}{Instance: Newton SMT (SV Competition, SAT)}{
+    \only<1>{initial layout}
+    \only<2>{after 10000 conflicts}
+    \only<3>{after 1000000 conflicts}
+    \only<4>{after 3000000 conflicts}
+    \only<5>{after 3500000 conflicts, almost solved}
+}
+\centering
+\vspace*{-2em}
+\only<1>{
+\includegraphics[width=0.9\textwidth, trim={100 0 100 100}, clip]{newton-smt-5200}
+}
+\only<2>{
+\includegraphics[width=0.9\textwidth, trim={100 0 100 100}, clip]{newton-smt-10000}
+}
+\only<3>{
+\includegraphics[width=0.9\textwidth, trim={100 0 100 100}, clip]{newton-smt-1000000}
+}
+\only<4>{
+\includegraphics[width=0.9\textwidth, trim={100 0 100 30}, clip]{newton-smt-3000000}
+}
+\only<5>{
+\includegraphics[width=0.9\textwidth, trim={100 0 100 100}, clip]{newton-smt-3500000-cherry}
+}
 \end{frame}
 
     
