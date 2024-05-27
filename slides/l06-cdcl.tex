@@ -378,19 +378,18 @@ Clause Forgetting
 
 
 \begin{frame}{Clause Forgetting}
-
 \begin{block}{Motivation}
-Clause learning is most important pruning strategy in CDCL solvers.\\[1ex]
+Clause learning is most important pruning strategy in CDCL solvers.\footnote{\href{https://doi.org/10.1007/978-3-642-21581-0_27}{``Empirical Study of the Anatomy of Modern Sat Solvers'', Katebi et al., 2013}}\\[1ex]
 \textbf{Problem:}
 \begin{itemize}
-\item Slows down unit propagation
-\item Risk of running out of memory
+    \item Slows down unit propagation
+    \item Risk of running out of memory
 \end{itemize}
 \textbf{Solution:}
 \begin{itemize}
-\item Periodically forget some learned clauses
-\item Keep only ``the best'' learned clauses
-\item<2> \textbf{How to figure out which learned clauses are ``the best''?}
+    \item Periodically forget some learned clauses
+    \item Keep only ``the best'' learned clauses
+    \item<2> \textbf{How to figure out which learned clauses are ``the best''?}
 \end{itemize}
 \end{block}
 \end{frame}
