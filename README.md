@@ -10,6 +10,7 @@ Summer Term 2024
 - [Monday, May 6: Branching Heuristics, Restart Strategies, Backtracking, Clause Learning](slides/l04-heuristics.pdf)
 - [Monday, May 13: Parallel SAT Solving 1]
 - [Monday, May 27: Modern SAT Solving 2: Efficient Unit Propagation, Clause Forgetting, VSIDS, Community Structure, Preprocessing](slides/l06-cdcl.pdf)
+- [Monday, June 3: Preprocessing](slides/l07-preprocessing.pdf)
 
 ## Exercises
 
