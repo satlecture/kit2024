@@ -1,0 +1,136 @@
+\documentclass{article}
+
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{tabularx}
+\usepackage{tikzsymbols}
+\usepackage{hyperref}
+\usepackage{amsmath}
+
+\usepackage{titlesec}
+\titleformat*{\section}{\large\bfseries}
+
+\input{../slides/l00-commands.tex}
+
+\begin{document}
+\exhead{3}{2024-06-04}{2024-06-18}
+
+\section{CDCL ($7$ Points)}
+Simulate the CDCL algorithm by hand on the formula $F$.
+Draw the implication graph for each conflict and learn the 1-UIP clause.
+Select branching literals in the order $x_1, x_2, x_3, \dots$
+\vspace*{-1em}
+\begin{align*}
+F = \bigl\{ &\{ x_1, x_{13} \}, \{ \overline x_1, \overline x_2, x_{14} \}, \{ x_3, x_{15} \}, \{ x_4, x_{16} \}, \\
+            &\{ \overline x_5, \overline x_3, x_6 \}, \{ \overline x_5, \overline x_7 \}, \{ \overline x_6, x_7, x_8 \}, \{ \overline x_4, \overline x_8, \overline x_9 \}, \\
+            &\{ \overline x_1, x_9, \overline x_{10} \}, \{ x_9, x_{11}, \overline x_{14} \}, \{ x_{10}, \overline x_{11}, x_{12} \}, \{ \overline x_2, \overline x_{11}, \overline x_{12} \} \bigr\}
+\end{align*}
+
+\section{Variable Elimination ($3$ Points)}
+For a gate encoding $E$ with output $x$ in a formula $F = E \cup R$,
+we simplified the resolvents $(E_x \cup R_x) \otimes (E_{\overline x} \cup R_{\overline x})$ by
+$S := (E_x \otimes R_{\overline x}) \cup (R_x \otimes E_{\overline x})$, dropping both
+$R_x \otimes R_{\overline x}$ and $E_x \otimes E_{\overline x}$.
+Show that the clauses in $R_x \otimes R_{\overline x}$ can be derived from $S$ by resolution.
+You can assume that $E$ encodes a binary AND gate.
+
+\section{Variable Elimination ($2 \times 2$ Points)}
+Let the formula $S$ with gate encodings $E_1$ and $E_2$ be given.
+Apply variable elimination for gates for variables $a$ and $r$.
+Give the clause sets after each elimination step.
+Try the following two strategies.
+\vspace*{-1ex}
+\begin{enumerate}\setlength{\itemsep}{0pt}
+\item Eliminate variable $a$ first, and then $r$ if possible.
+\item Eliminate variable $r$ first, and then $a$ if possible.
+\end{enumerate}
+\vspace*{-1em}
+\begin{align*}
+S = \bigl\{ \underbrace{\{ \lnot x, \lnot y, a \}, \{ x, \lnot a \}, \{ y, \lnot a \}}_{E_1},
+\underbrace{\{ \lnot a, r \}, \{ \lnot z, r \}, \{ a, z, \lnot r \}}_{E_2}, \{ a, z, r \},
+\{ \lnot a, \lnot r \} \bigr\}
+\end{align*}
+
+\section{Blocked Clauses ($3\times 3$ Points)}
+If Blocked Clause Elimination (BCE) reduces a formula $F$ to the empty formula then $F$ is called a blocked set.
+Prove the following statements.
+\vspace*{-1ex}
+\begin{enumerate}\setlength{\itemsep}{0pt}
+	\item Any formula $F$ can be partitioned into two blocked sets $S$ and $L$ such that $F = S\cup L$.
+    Design a linear algorithm that produces $L$ and $S$ from $F$.
+	\item Blocked sets are not closed unter resolution. 
+    If $F$ is a blocked set then $F \cup C_1 \otimes C_2$, where $C_1,C_2 \in F$ may not be a blocked set anymore.
+	\item Blocked sets are not closed unter partially assigning variables.
+    If $F$ is a blocked set then $F_{x=v}$ (the result of assigning $v$ to $x$ and subsequent simplification) may not be a blocked set anymore.
+\end{enumerate}
+
+\section{Hidoku Competition ($12$ Points)}
+
+\newcounter{row}
+\newcounter{col}
+\newcommand\setrow[4]{
+  \setcounter{col}{1}
+  \foreach \n in {#1, #2, #3, #4} {
+    \edef\x{\value{col} - 0.5}
+    \edef\y{4.5 - \value{row}}
+    \node[anchor=center] at (\x, \y) {\n};
+    \stepcounter{col}
+  }
+  \stepcounter{row}
+}
+
+Hidoku a.k.a Hidato a.k.a Number Snake is a logic puzzle where the goal is to fill a grid with consecutive numbers that connect horizontally, vertically, or diagonally. The grid is rectangular and some of the cells are pre-filled.\\[1ex]
+
+\begin{tikzpicture}[scale=.5]
+\begin{scope}
+    \draw (0, 0) grid (4, 4);
+    \setcounter{row}{1}
+    \setrow {1}{}{}{5}
+    \setrow {}{7}{}{}
+    \setrow {}{}{}{14}
+    \setrow {}{}{16}{}
+    \node[anchor=center] at (2, -0.9) {Unsolved Hidoku};
+\end{scope}
+\begin{scope}[xshift=8cm]
+    \draw (0, 0) grid (4, 4);
+    \setcounter{row}{1}
+    \setrow {1}{3}{4}{5}
+    \setrow {2}{7}{6}{13}
+    \setrow {8}{11}{12}{14}
+    \setrow {9}{10}{16}{15}
+    \node[anchor=center] at (2, -0.9) {Solved Hidoku};
+\end{scope}
+\begin{scope}[xshift=16cm]
+    \draw (0, 0) grid (4, 4);
+    \setcounter{row}{1}
+    \setrow {1}{}{}{5}
+    \setrow {}{}{}{}
+    \setrow {2}{}{}{14}
+    \setrow {}{}{16}{}
+    \node[anchor=center] at (2, -0.9) {Unsolvable Hidoku};
+\end{scope}
+\end{tikzpicture}
+~\\[1ex]
+The input is a string, which represents a Hidoku puzzle.
+The first two numbers are the width and heigth of the grid followed by the values separated by commas, rows are separated by semicolons, 0 represents an empty cell.
+For the example above it looks as follows.
+\vspace*{-1ex}
+\begin{align*}
+4,4:1,0,0,5;0,7,0,0;0,0,0,14;0,0,16,0
+\end{align*}%
+%
+The output is a string, which represents the solution of the given Hidoku puzzle.
+A Hidoku puzzle may be unsatisfiable, in that case the output is \texttt{sol:UNSAT}, otherwise the solution is given in the same format as the input.
+For the example above it looks as follows.
+\vspace*{-1ex}
+\begin{align*}
+sol:1,3,4,5;2,7,6,13;8,11,12,14;9,10,16,15;
+\end{align*}%
+%
+Implement a SAT based Hidoku solver.
+For a working solver you get 12 points.
+The fastest solver will receive a \highl{bonus of 12 points}.
+Some examples for testing can be found online at 
+\url{https://satlecture.github.io/kit2024/exercises/hidoku/hidokus.txt}
+
+\end{document}

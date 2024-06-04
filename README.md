@@ -10,12 +10,13 @@ Summer Term 2024
 - [Monday, May 6: Branching Heuristics, Restart Strategies, Backtracking, Clause Learning](slides/l04-heuristics.pdf)
 - [Monday, May 13: Parallel SAT Solving 1]
 - [Monday, May 27: Modern SAT Solving 2: Efficient Unit Propagation, Clause Forgetting, VSIDS, Community Structure, Preprocessing](slides/l06-cdcl.pdf)
-- [Monday, June 3: Preprocessing](slides/l07-preprocessing.pdf)
+- [Monday, June 3: Preprocessing: Subsumption, BVE, BCE, Gates](slides/l07-preprocessing.pdf)
 
 ## Exercises
 
 - [Tuesday, April 23: Assignment 1 (Coloring and Sudoku Competitions, Pythagorean Triples, Tseitin Encoding)](exercises/ex1.pdf)
 - [Tuesday, May 7: Assignment 2 (Tetris and Local Search Competitions, Resolution, Hidden Horn)](exercises/ex2.pdf)
+- [Tuesday, June 4: Assignment 3 (Hidoku Competition, CDCL, BVE, BCE)](exercises/ex3.pdf)
 
 ## Slides and Code used in the Exercises
 
