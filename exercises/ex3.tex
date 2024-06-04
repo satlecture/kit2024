@@ -13,13 +13,14 @@
 \input{../slides/l00-commands.tex}
 
 \begin{document}
+\vspace*{-1em}
 \exhead{3}{2024-06-04}{2024-06-18}
 
 \section{CDCL ($7$ Points)}
 Simulate the CDCL algorithm by hand on the formula $F$.
 Draw the implication graph for each conflict and learn the 1-UIP clause.
 Select branching literals in the order $x_1, x_2, x_3, \dots$
-\vspace*{-1em}
+\vspace*{-1ex}
 \begin{align*}
 F = \bigl\{ &\{ x_1, x_{13} \}, \{ \overline x_1, \overline x_2, x_{14} \}, \{ x_3, x_{15} \}, \{ x_4, x_{16} \}, \\
             &\{ \overline x_5, \overline x_3, x_6 \}, \{ \overline x_5, \overline x_7 \}, \{ \overline x_6, x_7, x_8 \}, \{ \overline x_4, \overline x_8, \overline x_9 \}, \\
@@ -44,7 +45,7 @@ Try the following two strategies.
 \item Eliminate variable $a$ first, and then $r$ if possible.
 \item Eliminate variable $r$ first, and then $a$ if possible.
 \end{enumerate}
-\vspace*{-1em}
+\vspace*{-1ex}
 \begin{align*}
 S = \bigl\{ \underbrace{\{ \lnot x, \lnot y, a \}, \{ x, \lnot a \}, \{ y, \lnot a \}}_{E_1},
 \underbrace{\{ \lnot a, r \}, \{ \lnot z, r \}, \{ a, z, \lnot r \}}_{E_2}, \{ a, z, r \},
