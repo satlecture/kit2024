@@ -36,11 +36,9 @@ The parser uses `libarchive' (for unpacking CNF files), so to use it you need to
 - For Ubuntu: `apt install libarchive-dev`
 - For macOS: `brew install libarchive`
 
-Using the included cmake build script `CMakeLists.txt`, you can build the programs we provide in the `code/` directory as follows:
+To build the programs from the lecture and exercises, invoke our build script `CMakeLists.txt` as follows:
 
 ```
 cmake -S code -B code/build
 cmake --build code/build
 ```
-
-This builds the programs from the lecture and exercises.
