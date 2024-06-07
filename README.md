@@ -1,6 +1,6 @@
 # Lecture: Practical SAT Solving
 
-Summer Term 2024, Comuter Science, Karlsruhe Institute of Techonolgy (KIT)
+Summer Term 2024, Computer Science, Karlsruhe Institute of Techonolgy (KIT)
 
 ## Slides
 
@@ -24,6 +24,10 @@ Summer Term 2024, Comuter Science, Karlsruhe Institute of Techonolgy (KIT)
 - Code Example: [SLUR Satisfier](code/src/slursat.cc)
 - Code Example: [Trail Class with Propagate and Backtracking](code/src/trail.h)
 
+## Repository
+
+This page is generated from our [repository on GitHub](https://github.com/satlecture/kit2024)
+
 ## Code
 
 The `code/src/util` directory contains a CNF file parser that is called when instantiating the class in `CNFFormula.h`, which can also read packed CNF files.
@@ -39,8 +43,4 @@ cmake -S code -B code/build
 cmake --build code/build
 ```
 
-This builds the program `code/build/essential` from our last slide in the first lecture.
-
-## Repository
-
-This page is generated from our [repository on GitHub](https://github.com/satlecture/kit2024)
+This builds the programs from the lecture and exercises.
