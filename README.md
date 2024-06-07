@@ -1,6 +1,6 @@
 # Lecture: Practical SAT Solving
 
-Summer Term 2024
+Summer Term 2024, Comuter Science, Karlsruhe Institute of Techonolgy (KIT)
 
 ## Slides
 
@@ -40,3 +40,7 @@ cmake --build code/build
 ```
 
 This builds the program `code/build/essential` from our last slide in the first lecture.
+
+## Repository
+
+This page is generated from our [repository on GitHub](https://github.com/satlecture/kit2024)
