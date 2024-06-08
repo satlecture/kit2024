@@ -1,0 +1,216 @@
+\documentclass[t]{sdqbeamer}
+%\documentclass[c]{sdqbeamer} 
+
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{tabularx}
+\usepackage{multirow}
+\usepackage{multicol}
+\usepackage{tabulary}
+\usepackage{colortbl}
+\usepackage{tikzsymbols}
+\usepackage{tikz}
+\usetikzlibrary{positioning,fit,shapes}
+\usepackage[lined,linesnumbered,ruled,noend]{algorithm2e}
+\usepackage{bm}
+\usepackage{enumitem}
+\setlist[enumerate]{label*=\bf\alph*),ref=\alph*}
+\setlist[itemize]{label=\textbullet}
+
+\hypersetup{
+	colorlinks=true,
+	urlcolor=kit-orange
+}
+
+% set sdqbeamer options
+\titleimage{blender-render}
+\groupname{Algorithm Engineering}
+\grouplogo{ae}
+\selectlanguage{english}
+
+% define title etc.pp.
+\title[SAT Solving]{Practical SAT Solving}
+\subtitle{Lecture 8}
+\author{\underline{Markus Iser}, Dominik Schreiber, Tom\'a\v{s} Balyo}
+\date{June 10, 2024}
+
+% Existing KIT colors: kit-green, kit-blue, kit-red, kit-gray, kit-orange, kit-lightgreen, kit-brown, kit-purple, kit-cyan
+% configure appearance
+\setbeamercolor{block title}{bg=kit-blue}
+\setbeamercolor{block body}{bg=kit-blue!10}
+\setbeamercolor{block title example}{bg=kit-orange}
+\setbeamercolor{block body example}{bg=kit-orange!10}
+\setbeamertemplate{itemize item}{\color{kit-gray}\textbullet}
+\setbeamertemplate{itemize subitem}{\color{kit-gray}\textbullet}
+\setbeamercolor{item projected}{bg=kit-gray, fg=kit-gray}
+\renewcommand{\insertnavigation}[1]{} % remove navigation bar
+
+% define commands
+\input{l00-commands.tex}
+
+
+\begin{document}
+\begin{frame}
+	\thispagestyle{empty}
+	\titlepage
+\end{frame}
+
+
+\begin{frame}{Recap}
+    \begin{block}{Lecture 7: Preprocessing}
+		\begin{itemize}\setlength{\itemsep}{1ex}
+			\item Subsumption, BVE, BCE, Gates
+		\end{itemize}
+    \end{block}
+    % \pause
+	\begin{block}{Today}
+        Propagation-based Redundancy Notions
+	\end{block}
+\end{frame}
+    
+
+\begin{frame}{Preprocessing: Unit Propagation, Probing}
+\begin{block}{Propagation-based Redundancy}
+Let a formula $F$, a clause $C \in F$, and a literal $x \in C$ be given.\\[1ex]
+\begin{itemize}\setlength{\itemsep}{1ex}
+    \item \textbf{Failed Literal Probing}\\[1pt]
+    If $F \land x \vdash_{\mathop{UP}} \bot$, then $F \models \lnot x$.\\$\implies$ add $\{ \lnot x \}$ to $F$
+    \item \textbf{Asymmetric Literal Elimination (ALE)}\\[1pt]
+    If $F \setminus C \land \overline{C \setminus \{ x \}} \vdash_{\mathop{UP}} \overline x$, then $F \models C \setminus \{ x \}$.
+    \\$\implies$ strengthen $C$ to $C \setminus \{ x \}$
+    \item \textbf{Asymmetric Tautology Elimination (ATE)}\\[1pt]
+    If $F \setminus C \land \overline C \vdash_{\mathop{UP}} \bot$, then $F \models C$.
+    \\$\implies$ remove $C$ from $F$
+\end{itemize}
+\end{block}
+\end{frame}
+
+
+\begin{frame}{Preprocessing: Unit Propagation, Probing}
+\begin{block}{Optimizations of Probing Techniques}~\\
+\begin{itemize}\setlength{\itemsep}{1em}
+    \item \textbf{Restricted Form of ATE/ALE}\\[1pt]
+    Hidden Tautology Elimination (HTE), Hidden Literal Elimination (HLE) only propagate over binary clauses.
+    \item \textbf{Avoidance of Redundant Propagations}\\[1pt]
+    Sort literals and clauses in a formula to simulate a trie, and reuse propagations that share the same prefix.
+    % \item \textbf{Unhiding}\footnote{\href{https://link.springer.com/chapter/10.1007/978-3-642-21581-0_17}{2011, Heule et al., Efficient CNF Simplification Based on Binary Implication Graphs}}\\[1pt] Avoid quadratic runtime of repeated unit propagation through randomized depth-first traversal of
+    the binary implication graph and application of the \emph{parenthesis theorem}.
+    \item \textbf{Variants: Distillation / Vivification}\\[1pt]
+    Interleave assignments and propagations to detect ATs / ALs early.
+\end{itemize}~\\
+\end{block}
+\end{frame}
+
+
+\begin{frame}{Probing: Relationship with Proof Checking}
+\begin{block}{Generalizations of Blocked Clauses}~\\
+\begin{itemize}\setlength{\itemsep}{1em}
+    \item \textbf{Reverse Unit Propagation (RUP)}\\[1pt]
+    A clause has the property RUP if and only if it is an Asymmetric Tautology (AT).
+    All learned clauses are RUP at the moment of their learning.
+    RUP checking is basic proof checking.
+    \item \textbf{Resolution Asymetric Tautologies (RATs)}\\[1pt]
+    A clause $C$ is a RAT in a formula $F$ if it contains a literal $x$ such that \highlo{each resolvent in $C \otimes_x F_{\overline x}$ is an asymmetric tautology}.
+    Modern proof systems are based on RATs.
+\end{itemize}
+~\\
+\end{block}
+\end{frame}
+
+
+\begin{frame}{Recap.}
+\begin{block}{Recap.}
+\begin{itemize}
+    \item Classic Preprocessing Techniques: Subsumption, Self-subsuming Resolution, Bounded Variable Elimination, Blocked Clause Elimination
+    \item Relationship between Preprocessing Techniques and Gate Encodings
+    \item Probing Techniques: Failed Literal Probing, Asymmetric Literal Elimination, Asymmetric Tautology Elimination
+    \item Relationship between Probing Techniques and Proof Checking
+\end{itemize}
+\end{block}
+\begin{block}{Next Up}
+Scheduling of Preprocessing Techniques, Inprocessing, Autarky Reasoning
+\end{block}
+\end{frame}
+
+
+\begin{frame}{Preprocessing: Scheduling of Preprocessing Techniques}
+At a point where one technique is unable to make further progress, another technique might be applicable and even modify the problem in a way that the first technique can make further progress.\\[1ex]
+
+\begin{block}{Scheduling of Preprocessing Techniques}
+\begin{itemize}\setlength{\itemsep}{1ex}
+    \item \textbf{Heuristic Limits}\\[1pt]
+    Bound the number of applications of a technique.
+    \item \textbf{Scheduling of Techniques}\\[1pt]
+    Non-trivial, benefit of techniques depends on the formula.
+    \item \textbf{Interleaving of Techniques}\\[1pt]
+    Apply techniques in a round-robin fashion.
+    \item \textbf{Inprocessing}\\[1pt]
+    Interleave search and preprocessing.
+\end{itemize}
+\end{block}
+\end{frame}
+
+
+\begin{frame}{Inprocessing}
+\begin{block}{Idea: Interleave search and preprocessing}
+\begin{itemize}\setlength{\itemsep}{1em}
+\item Preprocessing can be extremely beneficial: most solvers in SAT competitions use bounded variable elimination, subsumption and self-subsuming resolution
+\item Problem: Many preprocessing techniques, though polynomial, require considerable time
+\item Possible Solution:
+\begin{itemize}\setlength{\itemsep}{1ex}
+\item Interrupt preprocessing techniques after some time
+\item Resume on restart
+\item Limit preprocessing time in relation to search
+\end{itemize}
+\item \textbf{Discussion:} What are the problems that can arise in practice when SAT instances are solved incrementally?
+\end{itemize}
+\end{block}
+\end{frame}
+
+    
+\begin{frame}{Inprocessing: Autarkies}
+Autarky reasoning is used by state-of-the-art SAT solvers (cf. \texttt{Kissat}) to remove clauses from a formula.
+\begin{block}{Autarky-based Clause Removal}
+Let a formula $F$ and a partial assignment $A$ be given.\\[1ex]
+\begin{itemize}\setlength{\itemsep}{1ex}
+    \item A clause $C \in F$ is \highlo{touched} by $A$ if it contains the negation of a literal assigned in $A$
+    \item A clause $C \in F$ is \highlo{satisfied} by $A$ if it contains a literal assigned to $\true$ by $A$
+\end{itemize}
+An autarky is a partial assignment $A$ such that \highlo{all touched clauses are satisfied}.\\
+All clauses touched by an autarky can be removed.\\[1em]
+\textbf{Discussion:} How to obtain partial assignments to probe for autarky-based clause removal?
+\end{block}
+\begin{exampleblock}{Autarky-based Clause Removal}
+The partial assignment $A = \{ \lnot a, \lnot c \}$ is an autarky for $F := \bigl\{\{ \lnot a, b \}, \{ \lnot a, c \}, \{ a, \lnot b, \lnot c \}\bigr\}$
+\end{exampleblock}
+\end{frame}
+
+
+\begin{frame}{Techniques that do not Reduce the Formula Size}
+\begin{block}{Next Time}
+\begin{itemize}\setlength{\itemsep}{1em}
+\item \textbf{Resolution Calculus} (a.k.a. Clause Learning)
+\item \textbf{Tseitin's Extension Rule}: Introduce definitions of new variables as a conjunction of existing literals (a.k.a. Bounded Variable Addition (BVA)). Some formulas have refutations of exponential size in the resolution calculus, but of polynomial size in extended resolution, e.g., pigeonhole formulas, mutilated chessboard, \dots\\[1ex]
+$\bm\rightarrow$ \texttt{SBVA-CaDiCaL}: Winner of SAT Competition 2023
+\item \textbf{Symmetry Breaking Predicates}: Exclusion of Symmetric Solutions\\[1ex]
+$\bm\rightarrow$ \texttt{BreakId-Kissat}: Special Price at SAT Competition 2023
+\item \textbf{PReLearning}: Preprocessing adds specific Propagation Redundant (PR) clauses\\[1ex]
+$\bm\rightarrow$ \texttt{KissatMAB-Prop}: Winner of SAT Competition 2023 on UNSAT instances
+\end{itemize}
+\end{block}
+\end{frame}
+
+
+% \begin{frame}{Hybrid Backtracking}
+%     \begin{block}{Recent Revival of Chronological Backtracking}
+%     \begin{itemize}
+%     \item Nadel \& Ryvchin, SAT 2018
+%     \item Backtrack chronologically iff number of untouched decision levels is higher than a given bound
+%     \item SAT Competition 2018: \texttt{MapleLCMDistChronoBT} (best score)
+%     \item SAT Race 2019: \texttt{MapleLCMDistChronoBT} \& \texttt{CaDiCal} (best scores)
+%     \item Hard to implement: Decision levels no longer monotonically increasing on trail
+%     \end{itemize}
+%     \end{block}
+% \end{frame}
+
+\end{document}

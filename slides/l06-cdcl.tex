@@ -679,92 +679,92 @@ Keep list of variables sorted by scores
             \end{itemize}
         \end{itemize}
     \end{block}
-    \begin{block}{Next Up}
-        Preprocessing
-    \end{block}
+    % \begin{block}{Next Up}
+    %     Preprocessing
+    % \end{block}
 \end{frame}
     
-\begin{frame}{Preprocessing}
-\textbf{Conjecture:} Smaller problems are easier to solve\\[1ex]
-$\Longrightarrow$ Try to reduce the size of the input formula by (polynomial time) simplification procedures.\\[1em]
-\begin{block}{Today: Basic Preprocessing}
-\begin{itemize}\setlength{\itemsep}{1ex}
-    \item Subsumption
-    \item Self-subsuming Resolution
-    \item (Bounded) Variable Elimination (BVE)
-    \item Blocked Clause Elimination (BCE)
-\end{itemize}
-\end{block}
-\end{frame}
+% \begin{frame}{Preprocessing}
+% \textbf{Conjecture:} Smaller problems are easier to solve\\[1ex]
+% $\Longrightarrow$ Try to reduce the size of the input formula by (polynomial time) simplification procedures.\\[1em]
+% \begin{block}{Today: Basic Preprocessing}
+% \begin{itemize}\setlength{\itemsep}{1ex}
+%     \item Subsumption
+%     \item Self-subsuming Resolution
+%     \item (Bounded) Variable Elimination (BVE)
+%     \item Blocked Clause Elimination (BCE)
+% \end{itemize}
+% \end{block}
+% \end{frame}
     
     
-\begin{frame}{Subsumption}
-A clause $C$ is subsumed by $D$ iff $D \subseteq C$.\\[1ex]
-Subsumed clauses can be removed from the formula without changing satisfiability.\\[1ex]
-$\forall D \subseteq C, D \models C$\\[1em]
-\begin{exampleblock}{Example}
-    $\{a, b\}$ subsumes $\{a, b, c\}$ and $\{a, b, d\}$
-\end{exampleblock}
-\end{frame}
+% \begin{frame}{Subsumption}
+% A clause $C$ is subsumed by $D$ iff $D \subseteq C$.\\[1ex]
+% Subsumed clauses can be removed from the formula without changing satisfiability.\\[1ex]
+% $\forall D \subseteq C, D \models C$\\[1em]
+% \begin{exampleblock}{Example}
+%     $\{a, b\}$ subsumes $\{a, b, c\}$ and $\{a, b, d\}$
+% \end{exampleblock}
+% \end{frame}
     
     
-\begin{frame}{Self-Subsuming Resolution}
-Applicable if the resolvent of $C$ and another clause $D$ subsumes $C$.\\[1ex]
-Let $C, D$ be clauses and $\otimes_x$ the resolution operator on variable $x$.\\[1ex]
-If $C \otimes_x D \subseteq C$ then $C$ can be replaced by $C \otimes_x D$.\\[1em]
+% \begin{frame}{Self-Subsuming Resolution}
+% Applicable if the resolvent of $C$ and another clause $D$ subsumes $C$.\\[1ex]
+% Let $C, D$ be clauses and $\otimes_x$ the resolution operator on variable $x$.\\[1ex]
+% If $C \otimes_x D \subseteq C$ then $C$ can be replaced by $C \otimes_x D$.\\[1em]
    
-\begin{exampleblock}{Example}
-    $C := \{ \lnot b, \lnot e, {\color{myblue} f}, \lnot h \}$ \qquad
-    $D := \{ \lnot b, \lnot e, {\color{myblue} \lnot f} \}$ \qquad
-    $E := C \otimes_f D = \{ \lnot b, \lnot e, \lnot h \}$ \\[1em]
-    $\bm\longrightarrow$ Replace $C$ by $E$
-\end{exampleblock}
-\end{frame}
+% \begin{exampleblock}{Example}
+%     $C := \{ \lnot b, \lnot e, {\color{myblue} f}, \lnot h \}$ \qquad
+%     $D := \{ \lnot b, \lnot e, {\color{myblue} \lnot f} \}$ \qquad
+%     $E := C \otimes_f D = \{ \lnot b, \lnot e, \lnot h \}$ \\[1em]
+%     $\bm\longrightarrow$ Replace $C$ by $E$
+% \end{exampleblock}
+% \end{frame}
     
     
-\begin{frame}{Bounded Variable Elimination (BVE)}
-Let $S_x, S_{\overline x} \subset F$ be the sets of all clauses containing $x$ resp. ${\overline x}$, 
-and let $R = \{ C \otimes_x D ~|~ C \in S_x, D \in S_{\overline x} \}$ be the set of all resolvents on $x$.\\[1em]
-\textbf{Variable Elimination}: Modify $F$ such that \highl{$F' := (F \setminus (S_x \cup S_{\overline x})) \cup R$}\\[1ex]
-The formulas $F$ and $F'$ are \highlo{satisfiability equivalent} (why not equivalent?)\\[1em]
-%
-\textbf{Bounded Variable Elimination}: Eliminate variable only if \highl{size of formula} decreases.\\[1ex]
-Most important simplification technique today
-\end{frame}
+% \begin{frame}{Bounded Variable Elimination (BVE)}
+% Let $S_x, S_{\overline x} \subset F$ be the sets of all clauses containing $x$ resp. ${\overline x}$, 
+% and let $R = \{ C \otimes_x D ~|~ C \in S_x, D \in S_{\overline x} \}$ be the set of all resolvents on $x$.\\[1em]
+% \textbf{Variable Elimination}: Modify $F$ such that \highl{$F' := (F \setminus (S_x \cup S_{\overline x})) \cup R$}\\[1ex]
+% The formulas $F$ and $F'$ are \highlo{satisfiability equivalent} (why not equivalent?)\\[1em]
+% %
+% \textbf{Bounded Variable Elimination}: Eliminate variable only if \highl{size of formula} decreases.\\[1ex]
+% Most important simplification technique today
+% \end{frame}
     
     
-\begin{frame}{Blocked Clause Elimination (BCE)}
-A clause \highl{$\{ l \} \cup C$ is blocked in $F$ by $l$} if 
-\begin{itemize}
-    \item either $l$ is \emph{pure} in $F$ or
-    \item for every clause $\{ \lnot l \} \cup D$ in $F$ the resolvent $C \cup D$ is a \emph{tautology}.
-\end{itemize}~\\[1ex]
-Removal of an arbitrary blocked clause \highlo{preserves satisfiability}.\\[1ex]
-Blocked clause elimination (BCE) has a unique fixpoint.
-%
-\begin{exampleblock}{Example}
-$F := (a \lor b) \land (a \lor \lnot b \lor \lnot c) \land (\lnot a \lor c)$\\[1ex]
-First clause is not blocked, second is blocked by both $a$ and $\lnot c$, third is blocked by $c$.
-\end{exampleblock}
-\end{frame}
+% \begin{frame}{Blocked Clause Elimination (BCE)}
+% A clause \highl{$\{ l \} \cup C$ is blocked in $F$ by $l$} if 
+% \begin{itemize}
+%     \item either $l$ is \emph{pure} in $F$ or
+%     \item for every clause $\{ \lnot l \} \cup D$ in $F$ the resolvent $C \cup D$ is a \emph{tautology}.
+% \end{itemize}~\\[1ex]
+% Removal of an arbitrary blocked clause \highlo{preserves satisfiability}.\\[1ex]
+% Blocked clause elimination (BCE) has a unique fixpoint.
+% %
+% \begin{exampleblock}{Example}
+% $F := (a \lor b) \land (a \lor \lnot b \lor \lnot c) \land (\lnot a \lor c)$\\[1ex]
+% First clause is not blocked, second is blocked by both $a$ and $\lnot c$, third is blocked by $c$.
+% \end{exampleblock}
+% \end{frame}
 
 
-\begin{frame}{Recap}
-    \begin{block}{Today}
-        \begin{itemize}\setlength{\itemsep}{1em}
-            \item Unit Propagation
-            \item Clause Forgetting
-            \item Modern Branching Heuristics
-            \item Preprocessing
-            \begin{itemize}\setlength{\itemsep}{1ex}
-                \item Subsumption
-                \item Self-Subsuming Resolution
-                \item Bounded Variable Elimination
-                \item Blocked Clause Elimination
-            \end{itemize}
-        \end{itemize}
-    \end{block}
-\end{frame}
+% \begin{frame}{Recap}
+%     \begin{block}{Today}
+%         \begin{itemize}\setlength{\itemsep}{1em}
+%             \item Unit Propagation
+%             \item Clause Forgetting
+%             \item Modern Branching Heuristics
+%             \item Preprocessing
+%             \begin{itemize}\setlength{\itemsep}{1ex}
+%                 \item Subsumption
+%                 \item Self-Subsuming Resolution
+%                 \item Bounded Variable Elimination
+%                 \item Blocked Clause Elimination
+%             \end{itemize}
+%         \end{itemize}
+%     \end{block}
+% \end{frame}
 
 
 % \begin{frame}{Blocked Clauses and Gates}
