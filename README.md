@@ -1,6 +1,6 @@
 # Lecture: Practical SAT Solving
 
-Summer Term 2024, Computer Science, Karlsruhe Institute of Techonolgy (KIT)
+Summer Term 2024, Computer Science, Karlsruhe Institute of Technology (KIT)
 
 ## Slides
 
