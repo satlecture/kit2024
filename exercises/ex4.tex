@@ -1,0 +1,69 @@
+\documentclass{article}
+
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{tabularx}
+\usepackage{tikzsymbols}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage[ruled,vlined]{algorithm2e}
+
+\usepackage{titlesec}
+\titleformat*{\section}{\large\bfseries}
+
+\input{../slides/l00-commands.tex}
+
+\begin{document}
+\vspace*{-1em}
+\exhead{4}{2024-06-18}{2024-07-02}
+
+\section{Minimal Perfect Hashing (20 Points)}
+
+\subsection{Multiplication Competition (10 Points)}
+
+Write a program that takes as arguments two integers $a$ and $b$.
+If either $a$ or $b$ is not in the range $[0, 2^{64})$, the program should print an error message and exit.
+Otherwise, the program should output the multiplier circuit encoding in CNF that computes the product $a \cdot b$.
+The first $64$ variables of the CNF should be the bits of the product starting with the least significant bit.
+Variable $65$ should indicate whether an overflow happened during multiplication.
+The program should output the CNF in DIMACS format (including a header with the number of variables and clauses).
+The fastest enoding wins, the winner will receive 10 bonus points, the second 5 bonus points, and the third 3 bonus points.
+
+\subsection{Hashing (10 Points)}
+
+\noindent\begin{minipage}{\textwidth}
+\begin{minipage}[t]{.45\textwidth}
+    Given a bound $B$ and a set of $n$ $64$-bit integers keys $K = \{k_1, k_2, \ldots, k_n\}$, write a program which determines a seed $s$ for the hash function depicted in Algorithm~\ref{alg:murmur3final} in such a way, that the function maps all the keys $k \in K$ to a set of $n$ integers in the range $[0, B)$.
+     shows the finalization step of the Murmur3 hash function.\footnote{\url{http://zimbry.blogspot.com/2011/09/better-bit-mixing-improving-on.html}}
+\end{minipage}\hfill
+\begin{minipage}[t]{.5\textwidth}
+    \vspace*{-1em}
+    \begin{algorithm}[H]
+        \DontPrintSemicolon
+        \KwData{Key k: uint64}
+        \KwData{Seed s: uint64}
+        \BlankLine
+        $k \leftarrow k + s$ \;
+        $k \leftarrow k \otimes (k >> \mathtt{33})$ \;
+        $k \leftarrow k \times \mathtt{0xff51afd7ed558ccd}$ \;
+        $k \leftarrow k \otimes (k >> \mathtt{33})$ \;
+        $k \leftarrow k \times \mathtt{0xc4ceb9fe1a85ec53}$ \;
+        $k \leftarrow k \otimes  (k >> \mathtt{33})$ \;
+        \BlankLine
+        \Return k;
+        \BlankLine
+        \label{alg:murmur3final}
+        \caption{Murmur3Final}
+    \end{algorithm}
+\end{minipage}%
+\end{minipage}
+
+\subsection{Perfect Hashing (10 Points)}
+
+Extend your solution in such a way, that the function maps all the keys $k \in K$ \emph{uniquely} to $n$ integers in the range $[0, B)$.
+
+\subsection{Minimal Perfect Hashing (10 Points)}
+
+Extend your solution in such a way, that the function maps all the keys $k \in K$ \emph{uniquely} to $B$ integers in the range $[0, B)$.
+
+\end{document}
