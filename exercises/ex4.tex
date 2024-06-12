@@ -17,53 +17,43 @@
 \vspace*{-1em}
 \exhead{4}{2024-06-18}{2024-07-02}
 
-\section{Minimal Perfect Hashing (20 Points)}
+\section{Multiplier Encodings (10 Points)}
 
-\subsection{Multiplication Competition (10 Points)}
-
-Write a program that takes as arguments two integers $a$ and $b$.
-If either $a$ or $b$ is not in the range $[0, 2^{64})$, the program should print an error message and exit.
-Otherwise, the program should output the multiplier circuit encoding in CNF that computes the product $a \cdot b$.
-The first $64$ variables of the CNF should be the bits of the product starting with the least significant bit.
-Variable $65$ should indicate whether an overflow happened during multiplication.
+The task is to output the encoding of a multiplier circuit in CNF.
+The circuit should take two unsigned $64$-bit integers $a$ and $b$ as input and output their product.
+Variables $1$ to $65$ of the CNF should be the bits of the first input number $a$.
+Variables $66$ to $129$ should be the bits of the second input number $b$.
+Variables $130$ to $193$ should be the bits of the output number $c$.
+Variables $194$ should indicate whether an overflow happened during addition.
 The program should output the CNF in DIMACS format (including a header with the number of variables and clauses).
-The fastest enoding wins, the winner will receive 10 bonus points, the second 5 bonus points, and the third 3 bonus points.
+We will test your program by setting the bits of the input numbers by adding unit clauses and checking whether the output number is the product of the input numbers.
+You can find the encoding of the multiplier circuit in \url{https://satlecture.github.io/kit2024/references/2010%20-%20Bejar%20-%20Encoding%20Basic%20Arithmetic%20Operations%20for%20SAT-Solvers.pdf}.
 
-\subsection{Hashing (10 Points)}
+\section{Perfect Hashing Competition (16 Points)}
 
-\noindent\begin{minipage}{\textwidth}
-\begin{minipage}[t]{.45\textwidth}
-    Given a bound $B$ and a set of $n$ $64$-bit integers keys $K = \{k_1, k_2, \ldots, k_n\}$, write a program which determines a seed $s$ for the hash function depicted in Algorithm~\ref{alg:murmur3final} in such a way, that the function maps all the keys $k \in K$ to a set of $n$ integers in the range $[0, B)$.
-     shows the finalization step of the Murmur3 hash function.\footnote{\url{http://zimbry.blogspot.com/2011/09/better-bit-mixing-improving-on.html}}
-\end{minipage}\hfill
-\begin{minipage}[t]{.5\textwidth}
-    \vspace*{-1em}
-    \begin{algorithm}[H]
-        \DontPrintSemicolon
-        \KwData{Key k: uint64}
-        \KwData{Seed s: uint64}
-        \BlankLine
-        $k \leftarrow k + s$ \;
-        $k \leftarrow k \otimes (k >> \mathtt{33})$ \;
-        $k \leftarrow k \times \mathtt{0xff51afd7ed558ccd}$ \;
-        $k \leftarrow k \otimes (k >> \mathtt{33})$ \;
-        $k \leftarrow k \times \mathtt{0xc4ceb9fe1a85ec53}$ \;
-        $k \leftarrow k \otimes  (k >> \mathtt{33})$ \;
-        \BlankLine
-        \Return k;
-        \BlankLine
-        \label{alg:murmur3final}
-        \caption{Murmur3Final}
-    \end{algorithm}
-\end{minipage}%
-\end{minipage}
+Algorithm~\ref{alg:murmur3final} shows the finalization step of the Murmur3 hash function.\footnote{\url{http://zimbry.blogspot.com/2011/09/better-bit-mixing-improving-on.html}}
+The function takes an unsigned $64$-bit integer key $k$ and an unsigned $64$-bit integer seed $s$ and returns an unsigned $64$-bit integer.
+Given a bound $B$ and a set of $n$ unsigned $64$-bit integers $K = \{k_1, \ldots, k_n\}$, write a program which determines a seed $s$ in such a way, that the function maps all the keys $k \in K$ \emph{bijectively} to a set of $n$ unique integers in the range $[0, B)$.
+Encode the function depicted in Algorithm~\ref{alg:murmur3final} as a Boolean circuit in CNF and use an incremental SAT solver to solve this problem.
+Your program should take the bound $B$ and the set of keys $K$ as input and output the seed $s$.
+You can reuse your encoding of the multiplier circuit from the previous task or optimize it further as it is done in \url{https://satlecture.github.io/kit2024/references/2024%20-%20Bierlee%20-%20Single%20Constant%20Multiplication%20for%20SAT.pdf}.
 
-\subsection{Perfect Hashing (10 Points)}
-
-Extend your solution in such a way, that the function maps all the keys $k \in K$ \emph{uniquely} to $n$ integers in the range $[0, B)$.
-
-\subsection{Minimal Perfect Hashing (10 Points)}
-
-Extend your solution in such a way, that the function maps all the keys $k \in K$ \emph{uniquely} to $B$ integers in the range $[0, B)$.
+\begin{algorithm}[H]
+    \DontPrintSemicolon
+    \KwIn{Key k: uint64}
+    \KwIn{Seed s: uint64}
+    \BlankLine
+    $k \leftarrow k + s$ \;
+    $k \leftarrow k \otimes (k >> \mathtt{33})$ \;
+    $k \leftarrow k \times \mathtt{0xff51afd7ed558ccd}$ \;
+    $k \leftarrow k \otimes (k >> \mathtt{33})$ \;
+    $k \leftarrow k \times \mathtt{0xc4ceb9fe1a85ec53}$ \;
+    $k \leftarrow k \otimes  (k >> \mathtt{33})$ \;
+    \BlankLine
+    \Return k;
+    \BlankLine
+    \label{alg:murmur3final}
+    \caption{Murmur3Final}
+\end{algorithm}
 
 \end{document}
