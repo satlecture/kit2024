@@ -1,0 +1,82 @@
+\documentclass[t]{sdqbeamer}
+%\documentclass[c]{sdqbeamer} 
+
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{tabularx}
+\usepackage{multirow}
+\usepackage{multicol}
+\usepackage{tabulary}
+\usepackage{colortbl}
+\usepackage{tikzsymbols}
+\usepackage{pdfpages}
+\usepackage{tikz}
+\usetikzlibrary{positioning,fit,shapes}
+\usepackage[lined,linesnumbered,ruled,noend]{algorithm2e}
+\usepackage{bm}
+\usepackage{enumitem}
+\setlist[enumerate]{label*=\bf\alph*),ref=\alph*}
+\setlist[itemize]{label=\textbullet}
+
+\hypersetup{
+	colorlinks=true,
+	urlcolor=kit-orange
+}
+
+% set sdqbeamer options
+\titleimage{blender-render}
+\groupname{Algorithm Engineering}
+\grouplogo{ae}
+\selectlanguage{english}
+
+% define title etc.pp.
+\title[SAT Solving]{Practical SAT Solving}
+\subtitle{Lecture 7}
+\author{Markus Iser, Dominik Schreiber, \underline{Tom\'a\v{s} Balyo}}
+\date{June 17, 2024}
+
+% Existing KIT colors: kit-green, kit-blue, kit-red, kit-gray, kit-orange, kit-lightgreen, kit-brown, kit-purple, kit-cyan
+% configure appearance
+\setbeamercolor{block title}{bg=kit-blue}
+\setbeamercolor{block body}{bg=kit-blue!10}
+\setbeamercolor{block title example}{bg=kit-orange}
+\setbeamercolor{block body example}{bg=kit-orange!10}
+\setbeamertemplate{itemize item}{\color{kit-gray}\textbullet}
+\setbeamertemplate{itemize subitem}{\color{kit-gray}\textbullet}
+\setbeamercolor{item projected}{bg=kit-gray, fg=kit-gray}
+\renewcommand{\insertnavigation}[1]{} % remove navigation bar
+
+% define commands
+\input{l00-commands.tex}
+
+
+\begin{document}
+\begin{frame}
+	\thispagestyle{empty}
+	\titlepage
+\end{frame}
+
+
+\begin{frame}{Maximum Satisfiability}
+For today's lecture we use the slides of Matti J\"{a}rvisalo presented at 2016 SAT Summer School
+
+\begin{columns}
+\begin{column}{0.3\textwidth}
+\centering
+\includegraphics[scale=0.15]{figures/l09/jarvisalo.jpg}
+\end{column}
+\begin{column}{0.3\textwidth}
+\centering
+\includegraphics[scale=0.12]{figures/l09/ssa-poster-school.pdf}
+\end{column}
+\end{columns}
+Link:\\
+\url{http://ssa-school-2016.it.uu.se/programme/\#maxSAT}
+\end{frame}
+
+{
+%\setbeamercolor{background canvas}{bg=\red}
+\includepdf[pages=1-]{maxsat-matti.pdf}
+}
+
+\end{document}
