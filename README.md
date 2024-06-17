@@ -11,6 +11,8 @@ Summer Term 2024, Computer Science, Karlsruhe Institute of Technology (KIT)
 - [Monday, May 13: Parallel SAT Solving 1]
 - [Monday, May 27: Modern SAT Solving 2: Efficient Unit Propagation, Clause Forgetting, VSIDS, Community Structure, Preprocessing](slides/l06-cdcl.pdf)
 - [Monday, June 3: Preprocessing: Subsumption, BVE, BCE, Gates](slides/l07-preprocessing.pdf)
+- [Monday, June 17: MaxSat](slides/l09-maxsat.pdf)
+- [Tuesday, June 18: Planning](slides/l10-plannning.pdf)
 
 ## Exercises
 
