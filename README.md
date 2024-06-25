@@ -8,9 +8,10 @@ Summer Term 2024, Computer Science, Karlsruhe Institute of Technology (KIT)
 - [Monday, April 22: Tractable Subclasses, Tseitin Encoding, Cardinality Constraints, Finite Domain Encodings](slides/l02-encodings.pdf)
 - [Monday, April 29: Local Search, Resolution, DP Algorithm, DPLL Algorithm](slides/l03-algorithms.pdf)
 - [Monday, May 6: Branching Heuristics, Restart Strategies, Backtracking, Clause Learning](slides/l04-heuristics.pdf)
-- [Monday, May 13: Parallel SAT Solving 1]
+- [Monday, May 13: Parallel SAT Solving 1: Puzzle nerds analogy, Search space partitioning, Portfolios, Clause sharing, Massively parallel basics](slides/l05-parallelsat.pdf) (slides 1-25)
 - [Monday, May 27: Modern SAT Solving 2: Efficient Unit Propagation, Clause Forgetting, VSIDS, Community Structure, Preprocessing](slides/l06-cdcl.pdf)
 - [Monday, June 3: Preprocessing: Subsumption, BVE, BCE, Gates](slides/l07-preprocessing.pdf)
+- [Monday, June 10: Parallel SAT Solving 2: Mallob(Sat) deep dive and insights on distributed SAT solving](slides/l05-parallelsat.pdf) (slides 25-36 and 49)
 - [Monday, June 17: MaxSat](slides/l09-maxsat.pdf)
 - [Tuesday, June 18: Planning](slides/l10-planning.pdf)
 
