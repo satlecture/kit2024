@@ -14,6 +14,7 @@ Summer Term 2024, Computer Science, Karlsruhe Institute of Technology (KIT)
 - [Monday, June 10: Parallel SAT Solving 2: Mallob(Sat) deep dive and insights on distributed SAT solving](slides/l05-parallelsat.pdf) (slides 25-36 and 49)
 - [Monday, June 17: MaxSat](slides/l09-maxsat.pdf)
 - [Tuesday, June 18: Planning](slides/l10-planning.pdf)
+- [Monday, July 1: Application highlights](slides/l11-applications.pdf)
 
 ## Exercises
 
