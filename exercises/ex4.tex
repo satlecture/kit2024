@@ -6,6 +6,7 @@
 \usepackage{tikzsymbols}
 \usepackage{hyperref}
 \usepackage{amsmath}
+\usepackage{amssymb}
 \usepackage[ruled,vlined]{algorithm2e}
 
 \usepackage{titlesec}
@@ -32,8 +33,9 @@ You can find the encoding of the multiplier circuit in \url{https://satlecture.g
 \section{Perfect Hashing Competition (16 Points)}
 
 Algorithm~\ref{alg:murmur3final} shows the finalization step of the Murmur3 hash function.\footnote{\url{http://zimbry.blogspot.com/2011/09/better-bit-mixing-improving-on.html}}
-The function takes an unsigned $64$-bit integer key $k$ and an unsigned $64$-bit integer seed $s$ and returns an unsigned $64$-bit integer.
-Given a bound $B$ and a set of $n$ unsigned $64$-bit integers $K = \{k_1, \ldots, k_n\}$, write a program which determines a seed $s$ in such a way, that the function maps all the keys $k \in K$ \emph{bijectively} to a set of $n$ unique integers in the range $[0, B)$.
+This function $f$ takes an unsigned $64$-bit integer key $k$ and an unsigned $64$-bit integer seed $s$ and returns an unsigned $64$-bit integer.
+Given a bound $B = 2^x$ ($x \in \mathbb{N}$) and a set of $n \leq B$ unsigned $64$-bit integers $K = \{k_1, \ldots, k_n\}$, write a program which determines a seed $s$ in such a way that
+\[|\{\ f(k_1,s)\ \textrm{mod}\ B, f(k_2,s)\ \textrm{mod}\ B, \ldots, f(k_n,s)\ \textrm{mod}\ B\ \}| = n,\] i.e., all keys are mapped \emph{bijectively} to a set of $n$ unique integers in the range $[0, B)$.
 Encode the function depicted in Algorithm~\ref{alg:murmur3final} as a Boolean circuit in CNF and use an incremental SAT solver to solve this problem.
 Your program should take the bound $B$ and the set of keys $K$ as input and output the seed $s$.
 You can reuse your encoding of the multiplier circuit from the previous task or optimize it further as it is done in \url{https://satlecture.github.io/kit2024/references/2024%20-%20Bierlee%20-%20Single%20Constant%20Multiplication%20for%20SAT.pdf}.
@@ -53,7 +55,7 @@ You can reuse your encoding of the multiplier circuit from the previous task or 
     \Return k;
     \BlankLine
     \label{alg:murmur3final}
-    \caption{Murmur3Final}
+    \caption{Function $f$: Murmur3Final}
 \end{algorithm}
 
 \end{document}
