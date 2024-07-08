@@ -15,6 +15,7 @@ Summer Term 2024, Computer Science, Karlsruhe Institute of Technology (KIT)
 - [Monday, June 17: MaxSat](slides/l09-maxsat.pdf)
 - [Tuesday, June 18: Planning](slides/l10-planning.pdf)
 - [Monday, July 1: Application highlights](slides/l11-applications.pdf)
+- [Monday, July 8: Propagation-based Redundancy and Proofs](slides/l12-proofs.pdf)
 
 ## Exercises
 
