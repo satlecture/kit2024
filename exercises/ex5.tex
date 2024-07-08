@@ -1,0 +1,61 @@
+\documentclass{article}
+
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{tabularx}
+\usepackage{tikzsymbols}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[ruled,vlined]{algorithm2e}
+
+\usepackage{titlesec}
+\titleformat*{\section}{\large\bfseries}
+
+\input{../slides/l00-commands.tex}
+
+\begin{document}
+\vspace*{-1em}
+\exhead{5}{2024-07-09}{2024-07-23}
+
+\section{Application-specific Analysis (8 Points)}
+
+Pick \textbf{one} of the 20 largest benchmark families of SAT Competition 2022 (see lecture 11 slide 4).
+Research the following points:
+\begin{itemize}
+	\item Where does the family originate from and which people authored it?
+	\item What is the purpose of the benchmark family? (concrete application, exposing pathological solver behavior, highlighting certain techniques, \ldots)
+	\item Are the instances advertised to have any special properties? (e.g., clause length distribution, proof complexity, only SAT / only UNSAT, structural particularities, \ldots)
+	\item How did solvers in the 2022 anniversary track perform on the family? Are there discrepancies between the globally best solver(s) and the best solver(s) for that family? If so, can you find an explanation?
+	\item Are the instances good to parallelize, i.e., what is the distribution over the speedups which 2022 parallel solvers can achieve on the family?
+\end{itemize}
+Use Markus' GBD tool\footnote{
+	Basic online functionality: \url{https://benchmark-database.de};\\
+	local installation via \texttt{pip}: \url{https://github.com/Udopia/gbd}
+}, performance data of the 2022 anniversary track,\footnote{
+	\url{https://satcompetition.github.io/2022/downloads.html}
+} and the proceedings of past SAT Competitions, where you should find one or several abstracts describing the instances.
+\textit{You should not need to run a SAT solver nor download/open a SAT instance for this task.}
+
+\section{Planning via MaxSAT (4 Points)}
+
+Consider a classical (STRIPS-style) automated planning instance where each action $a$ is associated with a cost $c(a) \in \mathbb{N}^+$.
+We want to find a plan $P = \langle a_1, \ldots, a_n \rangle$ of \textit{minimum cost}, i.e., minimizing $C^* := \sum_{i=1}^n c({a_i})$.
+We also know an upper bound $U$ on the optimal plan cost, i.e., $C^* \leq U$.
+Design a MaxSAT encoding that results in a cost-optimal plan with a \textit{single} MaxSAT call.
+
+\section{Clause Filtering in Distributed SAT (6 Points)}
+
+Distributed clause-sharing solvers like \textsc{HordeSat} and \textsc{MallobSat} filter a repeated clause based on \textit{exact syntactical equivalence} (i.e., if a clause $c$ is shared successfully, then clause $c$ will be blocked for some period).
+Find a way to generalize this approach to \textit{subsumed} clauses, i.e., if clause $c$ is shared, then all clauses $c' \supseteq c$ are blocked for some period.
+Provide a rough analysis of the running time complexity and the memory footprint of your approach.
+
+\section{Miter Challenge (5+10 Points)}
+
+Devise a program which takes two CNF files of formulas $F_1$ and $F_2$ and which outputs a CNF $F_{neq}$ such that $F_{neq}$ is satisfiable if and only if $F_1 \not\equiv F_2$.
+Your program may perform non-trivial reasoning itself (e.g., transformations, simulations, internal SAT calls).
+The running time of your approach is measured as the running time of your program plus the running time of \textsc{Kissat} to solve your program's output $F_{neq}$.
+You receive 5 points for any correct submission and up to 10 bonus points based on your approach's performance.
+We will test the approach on (a) equivalent formula pairs, e.g., obtained via preprocessing techniques, and (b) ``broken'' instances of type (a) that are tampered with to render the instances non-equivalent.
+
+\end{document}
