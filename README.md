@@ -23,6 +23,7 @@ Summer Term 2024, Computer Science, Karlsruhe Institute of Technology (KIT)
 - [Tuesday, May 7: Assignment 2 (Tetris and Local Search Competitions, Resolution, Hidden Horn)](exercises/ex2.pdf)
 - [Tuesday, June 4: Assignment 3 (Hidoku Competition, CDCL, BVE, BCE)](exercises/ex3.pdf)
 - [Tuesday, June 18: Assignment 4 (Multiplier Encodings, Perfect Hashing Competition)](exercises/ex4.pdf)
+- [Tuesday, July 9: Assignment 5 (Application-specific Analysis, Planning via MaxSAT, Distributed SAT, Miter Challenge)](exercises/ex5.pdf)
 
 ## Slides and Code used in the Exercises
 
