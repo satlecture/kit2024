@@ -104,7 +104,7 @@
 \begin{frame}{Back To Basics}
 	\begin{itemize}
 		\item Solver on unsat.\ formula $F$ produces \highl{sequence of clauses} $P := \langle c_1, c_2, \ldots, c_n \rangle$ with $c_n = \emptyset$
-		\item Goal: \highl{Justify} for $i=1, \ldots, n$ that $F \models c_{i}$, i.e., that $c_i$ follows from $F$\\[1mm]
+		\item Goal: \highl{Justify} for $i=1, \ldots, n$ that $F \models c_{i}$, i.e., that \highl{$c_i$ follows from $F$}\\[1mm]
 		-- actually (in practice): that (\,\highl{$F \cup \bigcup_{j=1}^{i-1} c_{j}$}\,) $\models c_i$
 		\item \textbf{Clausal Proof} $\mathcal{P}$: Expression of $P$ with \highl{all information needed} to justify all steps \pause \highlo{efficiently (?)}
 	\end{itemize}
@@ -136,7 +136,7 @@
 		\item What kinds of clauses \highl{have} the RUP property?
 		\begin{itemize}
 			\item Conflict clauses from CDCL
-			\item Clauses arising from many pre-- and inprocessing techniques\\
+			\item Clauses arising from many \highl{pre-- and inprocessing techniques}\\
 			(variable elimination, subsumption, vivification, \ldots)
 			\item Actually, \highl{all clauses} produced by out-of-the-box \textsc{CaDiCaL}
 		\end{itemize}
@@ -292,7 +292,7 @@
 \end{frame}
 
 \begin{frame}{LRUP}
-	\vspace*{-3mm}
+	\vspace*{-4mm}
 	\begin{block}{Approach 4: LRUP (Linear RUP) Proof Checking}
 		\hspace*{0.5cm}\begin{minipage}{14cm}
 			$B := F$\\
@@ -309,8 +309,11 @@
 			\textbf{return} \textbf{\highl{VALIDATED}}
 		\end{minipage}
 	\end{block}
-	\vspace*{2mm}
-	$\Rightarrow$ \highlo{Larger proofs} but \highl{much more efficient checking} (often $10\times$ or more)
+
+	\pause
+	\vspace*{1mm}
+	$\Rightarrow$ \highlo{Larger proofs} but \highl{much more efficient checking} (often $10\times$ or more)\\
+	$\Rightarrow$ Optional: \highlo{Backward search} from empty clause $\rightarrow$ \highl{prune all irrelevant proof lines}
 \end{frame}
 
 \begin{frame}{From (D|L)RUP to (D|L)RAT~\cite{heule2016drat}}
@@ -357,14 +360,41 @@
 		followed by IDs for the RUP steps of $c'$.}
 \end{frame}
 
+\begin{frame}{DRAT and LRAT: Pragmatics}
+	
+	\begin{block}{DRAT-based solving and checking: Common tool chain}
+		\texttt{\textbf{./solver} input.cnf proof.drat\ \ \ \unimp{// solve, output DRAT proof}}	
+		
+		\texttt{\textbf{./drat-trim} input.cnf proof.drat -L proof.lrat\ \ \ \unimp{// transform DRAT proof to LRAT}}
+		
+		\texttt{\textbf{./cake-lpr} input.cnf proof.lrat\ \ \ \unimp{// validate LRAT proof -- \textbf{\highlo{trusted / verified}}}}		
+	\end{block}
+	
+	\pause
+	\begin{block}{Compressed DRAT and LRAT proofs}
+		\begin{itemize}
+			\item \highl{Binary file} instead of text file
+			\begin{itemize}
+				\item Numbers stored as integers instead of strings
+				\item Implicit separators
+			\end{itemize}
+			\item \highl{Variable byte length} encoding for each literal, clause ID
+			\begin{itemize}
+				\item A byte's \highl{first seven bits} denote its actual value
+				\item A byte's \highl{last bit} indicates if \highl{the number continues} at the next byte
+				\item Makes proof independent of underlying integer domain (32 vs.\ 64 bit), saves space for small values	
+			\end{itemize}
+		\end{itemize}
+	\end{block}	
+\end{frame}
+
 \begin{frame}{Adding Proof Support to Solvers}
 	
 	\vspace*{-2mm}
 	I wrote my own CDCL SAT solver. How can I let it \highl{produce UNSAT proofs}?
-	\pause
 	
 	\vspace*{2mm}
-	\textbf{DRAT:} \ \ \highl{super simple!}
+	\textbf{DRAT:} \ \ \pause\highl{super simple!}
 	\begin{itemize}
 		\item Create an (empty) proof file at upstart
 		\item Log each new redundant clause {\small (including the empty clause)} into the proof file
@@ -372,9 +402,8 @@
 		%\item For UNSAT, the final learned clause should be the empty clause
 	\end{itemize}
 
-	\pause
 	\vspace*{2mm}
-	\textbf{LRAT:} \ \ Clause addition lines need to be enriched \highlo{with dependency information (``hints'')}
+	\textbf{LRAT:} \ \ \pause{}Clause addition lines need to be enriched \highlo{with dependency information (``hints'')}
 	\begin{itemize}
 		\item CDCL conflict clauses: \highl{simple} -- use conflict's \highl{implication graph}
 		\item \highlo{Additional effort} for each employed pre-/inprocessing technique
@@ -451,12 +480,14 @@
 				%Consume \highl{highest ID first}\\
 				%$\rightsquigarrow$ single sorted output stream
 				\item \highl{Hierarchical merging} along tree
+				\uncover<2->{
 				\item ``Root process'' writes output to file\\[1mm]
 				%\setbeamertemplate{enumerate items}[square]
 				-- Seeing an ID $d_{ij}$ \highl{for the first time}?\\
 				\phantom{-- }$\Rightarrow$ write \highl{deletion of $d_{ij}$} before writing\\
 				\phantom{-- $\Rightarrow$ }the current statement!\\[1mm]
 				-- Finally: \highl{Invert lines of proof file}
+				}
 			\end{itemize}
 		\end{minipage}
 	\end{minipage}%
@@ -504,20 +535,29 @@
 \end{frame}
 
 \begin{frame}{Beyond Monolithic Proof Files}
-	Marijn Heule: Since LRUP checking is so efficient, we can feasibly do it \highl{in realtime}!
+	
+	\begin{minipage}{0.5\textwidth}
+		\texttt{\textbf{mkfifo} lratproof.pipe \ \unimp{// create ``pipe'' file}} \\[2mm]
+		\texttt{\unimp{// Solve \& check concurrently via pipe}} \\
+		\texttt{\textbf{./solver} input.cnf lratproof.pipe \highl{\textbf{\&}}} \\
+		\texttt{\hspace*{5mm}\textbf{./lrat-check} input.cnf lratproof.pipe}
+	\end{minipage}%
+	\begin{minipage}{0.5\textwidth}
+		\centering
+		\includegraphics[width=0.9\textwidth]{figures/l13/pipe-setup.pdf}
+	\end{minipage}
+	
+	\vspace*{5mm}
+	\textbf{Marijn Heule:} Since LRUP checking is so efficient, we can feasibly do it \highl{in realtime}!
 	\begin{itemize}
 		\item Solver streams proof output into a \highl{pipe} (UNIX special file)
 		\item Checker reads proof from pipe and checks it \highl{on-the-fly}\\
 		-- \highl{checking is done as soon as solving is done!}
+		\pause
 		\item \highl{Almost no slowdown} when running solver and checker on \highl{two hardware threads of the same core}
 		\item \highl{No disk I/O} required, \highl{same program code as with normal files} (execute \texttt{mkfifo} beforehand)
 		\item \highlo{Does not yield a persistent artifact} to validate by independent parties
 	\end{itemize}
-
-	\vspace*{3mm}
-	\begin{center}
-		\includegraphics[width=8cm]{figures/l13/pipe-setup.pdf}
-	\end{center}
 \end{frame}
 
 \begin{frame}{Clause-Sharing Solving with on-the-fly Checking\ \ \cite{schreiber2024trusted}}
@@ -555,11 +595,6 @@
 \begin{frame}{Clause-Sharing Solving + Checking: Scalability\ \ \cite{schreiber2024trusted}}
 	
 	\vspace*{-2mm}
-	\begin{minipage}{0.315\textwidth}
-		\centering
-		On-the-fly checking\\[2mm]
-		\includegraphics[scale=0.8]{figures/l13/boxplot-otfc.pdf}%	
-	\end{minipage}\ \ 
 	\begin{minipage}{0.67\textwidth}
 		\centering
 		Monolithic proofs\\[2mm]
@@ -568,7 +603,12 @@
 		\includegraphics[scale=0.8]{figures/l13/boxplot-proof-qtup.pdf}%
 		\hspace*{2mm}%
 		\includegraphics[scale=0.8]{figures/l13/boxplot-proof-qtuv.pdf}%
-	\end{minipage}%
+	\end{minipage}\ \ 
+	\begin{minipage}{0.315\textwidth}
+		\centering
+		On-the-fly checking\\[2mm]
+		\includegraphics[scale=0.8]{figures/l13/boxplot-otfc.pdf}%	
+	\end{minipage}
 
 	\vspace*{0.5mm}
 	\begin{center}
