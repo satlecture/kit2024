@@ -16,6 +16,8 @@ Summer Term 2024, Computer Science, Karlsruhe Institute of Technology (KIT)
 - [Tuesday, June 18: Planning](slides/l10-planning.pdf)
 - [Monday, July 1: Application highlights](slides/l11-applications.pdf)
 - [Monday, July 8: Propagation-based Redundancy and Proofs](slides/l12-proofs.pdf)
+- [Monday, July 15: Proof Pragmatics and Parallel Proofs](slides/l13-proof-pragmatics-parallelism.pdf) (until slide 17; to be continued July 22)
+- [Monday, July 22: SMT Solving](slides/l14-smt.pdf)
 
 ## Exercises
 
@@ -24,6 +26,7 @@ Summer Term 2024, Computer Science, Karlsruhe Institute of Technology (KIT)
 - [Tuesday, June 4: Assignment 3 (Hidoku Competition, CDCL, BVE, BCE)](exercises/ex3.pdf)
 - [Tuesday, June 18: Assignment 4 (Multiplier Encodings, Perfect Hashing Competition)](exercises/ex4.pdf)
 - [Tuesday, July 9: Assignment 5 (Application-specific Analysis, Planning via MaxSAT, Distributed SAT, Miter Challenge)](exercises/ex5.pdf)
+- Tuesday, July 23: Discussion of Assignment 5
 
 ## Slides and Code used in the Exercises
 
