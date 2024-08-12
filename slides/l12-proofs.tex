@@ -154,7 +154,7 @@ At a point where one technique is unable to make further progress, another techn
 \begin{frame}{Autarkies}
 Let a formula $F$ and a partial assignment $A$ be given.\\[1ex]
 \begin{itemize}\setlength{\itemsep}{1ex}
-    \item A clause $C \in F$ is \highlo{touched} by $A$ if it contains the negation of a literal assigned in $A$
+    \item A clause $C \in F$ is \highlo{touched} by $A$ if it contains a variable assigned in $A$
     \item A clause $C \in F$ is \highlo{satisfied} by $A$ if it contains a literal assigned to $\true$ by $A$
 \end{itemize}
 An autarky is a partial assignment $A$ such that \highlo{all touched clauses are satisfied}.
